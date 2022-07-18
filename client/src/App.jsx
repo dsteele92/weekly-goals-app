@@ -1,16 +1,21 @@
-import './App.scss';
-import { SetUp } from './components';
-import { Schedule } from './components';
-
 import React from 'react';
-// import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import './App.scss';
+
+import { Navbar } from 'components';
+import { HomePage, EditPage } from 'pages';
 
 const App = () => {
 	return (
-		<div>
-			<Schedule />
-			{/* if weekly goals and/or schedule are not set, show: */}
-			<SetUp />
+		<div className='App'>
+			<Router>
+				<Navbar />
+				<Routes>
+					<Route path='/' element={<HomePage />} />
+					<Route path='/edit' element={<EditPage />} />
+				</Routes>
+			</Router>
 		</div>
 	);
 };
