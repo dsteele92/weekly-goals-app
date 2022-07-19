@@ -1,0 +1,38 @@
+// Row Flex -->
+
+@mixin flex-1 {
+	display: flex;
+	align-items: flex-start;
+}
+@mixin flex-2 {
+	@include flex-1();
+	justify-content: center;
+}
+@mixin flex-3 {
+	@include flex-1();
+	justify-content: end;
+}
+@mixin flex-4 {
+	display: flex;
+	align-items: center;
+}
+@mixin flex-5 {
+	@include flex-4();
+	justify-content: center;
+}
+@mixin flex-6 {
+	@include flex-4();
+	justify-content: flex-end;
+}
+@mixin flex-7 {
+	display: flex;
+	align-items: flex-end;
+}
+@mixin flex-8 {
+	@include flex-7();
+	justify-content: center;
+}
+@mixin flex-9 {
+	@include flex-7();
+	justify-content: flex-end;
+}

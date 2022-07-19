@@ -1,1 +1,36 @@
 @import 'sass';
+
+.Wrapper {
+	@include flex-5;
+
+	margin: 0;
+	padding: 0;
+
+	width: 100%;
+	height: 80px;
+	background-color: $background-color-main;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.Inner {
+		width: 1200px;
+
+		ul {
+			@include flex-4;
+			margin: 10px;
+
+			li {
+				list-style: none;
+				margin-right: 20px;
+				font-size: 18px;
+				letter-spacing: 1px;
+
+				a {
+					color: white;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,12 @@
 import React from 'react';
 
+import { SetUp } from 'components';
+
 export default function HomePage() {
-	return <h1>Welcome to the Home Page</h1>;
+	return (
+		<div>
+			<h1>Welcome to the Home Page</h1>
+			{/* <SetUp /> */}
+		</div>
+	);
 }
