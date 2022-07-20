@@ -1,38 +1,80 @@
 // Row Flex -->
 
-@mixin flex-1 {
+@mixin flex-row-1 {
 	display: flex;
 	align-items: flex-start;
 }
-@mixin flex-2 {
-	@include flex-1();
+@mixin flex-row-2 {
+	@include flex-row-1();
 	justify-content: center;
 }
-@mixin flex-3 {
-	@include flex-1();
+@mixin flex-row-3 {
+	@include flex-row-1();
 	justify-content: end;
 }
-@mixin flex-4 {
+@mixin flex-row-4 {
 	display: flex;
 	align-items: center;
 }
-@mixin flex-5 {
-	@include flex-4();
+@mixin flex-row-5 {
+	@include flex-row-4();
 	justify-content: center;
 }
-@mixin flex-6 {
-	@include flex-4();
+@mixin flex-row-6 {
+	@include flex-row-4();
 	justify-content: flex-end;
 }
-@mixin flex-7 {
+@mixin flex-row-7 {
 	display: flex;
 	align-items: flex-end;
 }
-@mixin flex-8 {
-	@include flex-7();
+@mixin flex-row-8 {
+	@include flex-row-7();
 	justify-content: center;
 }
-@mixin flex-9 {
-	@include flex-7();
+@mixin flex-row-9 {
+	@include flex-row-7();
+	justify-content: flex-end;
+}
+
+// Column Flex -->
+
+@mixin flex-column-1 {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+@mixin flex-column-2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+@mixin flex-column-3 {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+@mixin flex-column-4 {
+	@include flex-column-1();
+	justify-content: center;
+}
+@mixin flex-column-5 {
+	@include flex-column-2();
+	justify-content: center;
+}
+@mixin flex-column-6 {
+	@include flex-column-3();
+	justify-content: center;
+}
+@mixin flex-column-7 {
+	@include flex-column-1();
+	justify-content: flex-end;
+}
+@mixin flex-column-8 {
+	@include flex-column-2();
+	justify-content: flex-end;
+}
+@mixin flex-column-9 {
+	@include flex-column-3();
 	justify-content: flex-end;
 }

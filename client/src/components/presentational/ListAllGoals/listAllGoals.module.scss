@@ -1,1 +1,14 @@
 @import 'sass';
+
+.Container {
+	@include flex-column-2;
+	margin: 10px auto 10px;
+	max-width: 400px;
+	border: 3px black solid;
+	border-radius: 10px;
+
+	h2 {
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+}

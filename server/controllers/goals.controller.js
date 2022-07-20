@@ -17,9 +17,9 @@ exports.create = (req, res) => {
 
 	// Create a Goal
 	const goal = new Goal({
-		name: req.body.name,
-		category: req.body.category,
-		day: req.body.day ? req.body.day : 'unassigned',
+		name: req.query.name,
+		category: req.query.category,
+		day: req.query.day ? req.query.day : 'unassigned',
 	});
 
 	// Save Goal in the database
@@ -43,7 +43,12 @@ exports.create = (req, res) => {
 // Retrieve all Goals from the database.
 exports.findAll = (req, res) => {
 	const name = req.query.name;
-	var condition = name ? { name: { $regex: new RegExp(name), $options: 'i' } } : {};
+	const category = req.query.category;
+	var condition = name
+		? { name: { $regex: new RegExp(name), $options: 'i' } }
+		: category
+		? { category: category }
+		: {};
 
 	Goal.find(condition)
 		.then((data) => {

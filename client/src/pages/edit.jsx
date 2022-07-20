@@ -1,11 +1,14 @@
 import React from 'react';
-import { ListAllGoals } from 'components';
+import { Container } from '@mui/material';
+import { AddNewGoal, ListAllGoals } from 'components';
 
 export default function EditPage() {
 	return (
-		<div>
-			<h1>Edit Goals</h1>
-			<ListAllGoals />
-		</div>
+		<Container maxWidth='xl'>
+			<AddNewGoal />
+			<ListAllGoals category='Fitness' />
+			<ListAllGoals category='Nutrition' />
+			<ListAllGoals category='Mindfulness' />
+		</Container>
 	);
 }
