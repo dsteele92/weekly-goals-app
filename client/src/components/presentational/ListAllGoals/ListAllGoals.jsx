@@ -10,7 +10,7 @@ export default function ListAllGoals(props) {
 			const allGoals = await axios.get(`http://localhost:10000/goals?category=${props.category}`);
 			if (JSON.stringify(goalsList) !== JSON.stringify(allGoals.data)) {
 				setGoalsList(allGoals.data);
-				console.log(allGoals);
+				// console.log(allGoals);
 			}
 		} catch (e) {
 			console.log(e);

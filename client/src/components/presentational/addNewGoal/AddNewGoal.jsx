@@ -1,31 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './addNewGoal.module.scss';
 import { Button } from 'components';
 
 export default function AddNewGoal() {
-	// const [nameInput, setNameInput] = useState('');
-	// const [categoryInput, setCategoryInput] = useState('');
-	// const [timesPerWeek, setTimesPerWeek] = useState(0);
-
-	let nameInput = useRef('');
-	let categoryInput = useRef('');
-	let timesPerWeek = useRef(0);
-
-	// function handleNameInputChanged(e) {
-	// 	setNameInput(e.target.value);
-	// 	console.log(nameInput);
-	// };
+	const [nameInput, setNameInput] = useState('');
+	const [categoryInput, setCategoryInput] = useState('');
+	const [timesPerWeek, setTimesPerWeek] = useState(0);
 
 	async function addGoal(e) {
 		e.preventDefault();
-		const name = nameInput.current.value;
-		const category = categoryInput.current.value;
-		const amount = timesPerWeek.current.value;
 		try {
-			for (let i = 0; i < amount; i++) {
-				await axios.post(`http://localhost:10000/goals?name=${name}&category=${category}`);
-				console.log(`NEW GOAL CREATED ${amount} times`);
+			for (let i = 0; i < timesPerWeek; i++) {
+				await axios.post(`http://localhost:10000/goals?name=${nameInput}&category=${categoryInput}`);
+				console.log(`NEW GOAL CREATED ${timesPerWeek} times`);
 			}
 		} catch (e) {
 			console.log(e);
@@ -38,11 +26,21 @@ export default function AddNewGoal() {
 			<form className={Style.form}>
 				<div>
 					<label htmlFor='goal'>Goal</label>
-					<input type='text' name='goal' id='goal' ref={nameInput} />
+					<input
+						type='text'
+						name='goal'
+						id='goal'
+						value={nameInput}
+						onChange={(e) => setNameInput(e.target.value)}
+					/>
 				</div>
 				<div>
 					<label htmlFor='category'>Category</label>
-					<select name='category' id='category' ref={categoryInput}>
+					<select
+						name='category'
+						id='category'
+						value={categoryInput}
+						onChange={(e) => setCategoryInput(e.target.value)}>
 						<option value=''>--Select--</option>
 						<option value='Fitness'>Fitness</option>
 						<option value='Nutrition'>Nutrition</option>
@@ -51,7 +49,12 @@ export default function AddNewGoal() {
 				</div>
 				<div>
 					<label htmlFor='times'>Times per week</label>
-					<input type='number' id='times' ref={timesPerWeek} />
+					<input
+						type='number'
+						id='times'
+						value={timesPerWeek}
+						onChange={(e) => setTimesPerWeek(e.target.value)}
+					/>
 				</div>
 				<button onClick={addGoal} className={Style.smallButton}>
 					Submit
