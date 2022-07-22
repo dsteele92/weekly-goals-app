@@ -4,52 +4,78 @@ import Style from './listAllGoals.module.scss';
 // Material UI -->
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function ListAllGoals(props) {
+export default function ListAllGoals() {
 	const [goalsList, setGoalsList] = useState([]);
 
-	(async function getAllGoals() {
+	(async function getGoals() {
 		try {
-			const allGoals = await axios.get(`http://localhost:10000/goals?category=${props.category}`);
-			if (JSON.stringify(goalsList) !== JSON.stringify(allGoals.data)) {
-				setGoalsList(allGoals.data);
-				console.log(allGoals.data);
+			const goals = await axios.get('http://localhost:10000/goals');
+			if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
+				setGoalsList(goals.data);
+				console.log(goals.data);
 			}
 		} catch (e) {
 			console.log(e);
 		}
 	})();
 
-	let goalsDisplay = [];
+	let allGoals = [];
+	let categories = [];
+
+	/*
+    if the category does not exist, add to category and add to allGoals
+    if the category exists, push category into categories array
+        -> then check: goal exists ? count++ : push new goal object
+    loop through categories array and create a div for each one
+        -> use filter method to map the array for each category
+    */
 
 	for (const goal in goalsList) {
-		let goalName = goalsList[goal].name;
-		let exists = false;
-		for (const obj in goalsDisplay) {
-			if (goalName === goalsDisplay[obj].name) {
-				exists = true;
-				goalsDisplay[obj].count++;
+		const goalName = goalsList[goal].name;
+		const category = goalsList[goal].category;
+		let catExists = false;
+		for (const cat in categories) {
+			if (category === categories[cat]) {
+				catExists = true;
 			}
 		}
-		if (!exists) {
-			let li = { name: goalName, count: 1 };
-			goalsDisplay.push(li);
-			console.log(goalsDisplay);
+		if (!catExists) {
+			const li = { name: goalName, category: category, count: 1 };
+			categories.push(category);
+			allGoals.push(li);
+		} else {
+			let goalExists = false;
+			for (const obj in allGoals) {
+				if (goalName === allGoals[obj].name) {
+					goalExists = true;
+					allGoals[obj].count++;
+				}
+			}
+			if (!goalExists) {
+				const li = { name: goalName, category: category, count: 1 };
+				allGoals.push(li);
+			}
 		}
 	}
 
 	return (
-		<div className={Style.Container}>
-			{/* <button onClick={getAllGoals}>Get Goals List</button> */}
-			<h2>{props.category}</h2>
-			<EditIcon className={Style.editIcon} fontSize='small' />
-			<ul>
-				{goalsDisplay.map((goal, index) => (
-					<li key={index}>
-						{goal.name}
-						{goal.count > 1 ? <span className={Style.listCount}>{`X${goal.count}`}</span> : ''}
-					</li>
-				))}
-			</ul>
+		<div>
+			{categories.map((cat) => (
+				<div className={Style.container}>
+					<h2>{cat}</h2>
+					<EditIcon className={Style.editIcon} fontSize='small' />
+					<ul>
+						{allGoals
+							.filter((goal) => goal.category === cat)
+							.map((goal, index) => (
+								<li key={index}>
+									{goal.name}
+									{goal.count > 1 ? <span className={Style.listCount}>{`X${goal.count}`}</span> : ''}
+								</li>
+							))}
+					</ul>
+				</div>
+			))}
 		</div>
 	);
 }

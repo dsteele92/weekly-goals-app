@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import Style from './navbar.module.scss';
 // Material UI:
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { Avatar } from '@mui/material';
 
 export default function Navbar() {
@@ -21,10 +23,26 @@ export default function Navbar() {
 						</Link>
 					</li>
 					<li>
+						<Link to='/add'>
+							<div>
+								<AddTaskOutlinedIcon fontSize='large' />
+								<p>Add</p>
+							</div>
+						</Link>
+					</li>
+					<li>
 						<Link to='/edit'>
 							<div>
 								<EditOutlinedIcon fontSize='large' />
 								<p>Edit</p>
+							</div>
+						</Link>
+					</li>
+					<li>
+						<Link to='/schedule'>
+							<div>
+								<CalendarMonthOutlinedIcon fontSize='large' />
+								<p>Schedule</p>
 							</div>
 						</Link>
 					</li>

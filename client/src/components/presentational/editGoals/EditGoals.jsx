@@ -7,17 +7,29 @@ import { ListAllGoals } from 'components';
 export default function EditGoals() {
 	const [nameInput, setNameInput] = useState('');
 	const [categoryInput, setCategoryInput] = useState('');
+	const [customCategoryInput, setCustomCategoryInput] = useState('');
 	const [timesPerWeek, setTimesPerWeek] = useState(0);
+
+	const [customCategory, setCustomCategory] = useState(false);
+
+	function onCategoryChange(e) {
+		setCategoryInput(e.target.value);
+		e.target.value === 'Custom' ? setCustomCategory(true) : setCustomCategory(false);
+		console.log(e.target.value);
+	}
 
 	async function addGoal(e) {
 		e.preventDefault();
 		try {
 			for (let i = 0; i < timesPerWeek; i++) {
-				await axios.post(`http://localhost:10000/goals?name=${nameInput}&category=${categoryInput}`);
+				const category = customCategory === true ? customCategoryInput : categoryInput;
+				await axios.post(`http://localhost:10000/goals?name=${nameInput}&category=${category}`);
 				console.log(`NEW GOAL CREATED ${timesPerWeek} times`);
 				setNameInput('');
 				setCategoryInput('--Select--');
 				setTimesPerWeek(0);
+				setCustomCategory(false);
+				setCustomCategoryInput('');
 			}
 		} catch (e) {
 			console.log(e);
@@ -26,7 +38,7 @@ export default function EditGoals() {
 
 	return (
 		<div>
-			<div className={Style.Container}>
+			<div className={Style.container}>
 				<h4>Add New Goal</h4>
 				<form className={Style.form}>
 					<div>
@@ -41,17 +53,29 @@ export default function EditGoals() {
 					</div>
 					<div>
 						<label htmlFor='category'>Category</label>
-						<select
-							name='category'
-							id='category'
-							value={categoryInput}
-							onChange={(e) => setCategoryInput(e.target.value)}>
+						<select name='category' id='category' value={categoryInput} onChange={onCategoryChange}>
 							<option value=''>--Select--</option>
 							<option value='Fitness'>Fitness</option>
 							<option value='Nutrition'>Nutrition</option>
 							<option value='Mindfulness'>Mindfulness</option>
+							<option value='Custom'>Custom</option>
 						</select>
 					</div>
+					{customCategory === true ? (
+						<div className={Style.customCategory}>
+							<input
+								type='text'
+								name='category'
+								id='category'
+								placeholder='Enter Custom Category'
+								value={customCategoryInput}
+								onChange={(e) => setCustomCategoryInput(e.target.value)}
+							/>
+						</div>
+					) : (
+						''
+					)}
+
 					<div>
 						<label htmlFor='times'>Times per week</label>
 						<input
@@ -66,9 +90,7 @@ export default function EditGoals() {
 					</button>
 				</form>
 			</div>
-			<ListAllGoals category='Fitness' />
-			<ListAllGoals category='Nutrition' />
-			<ListAllGoals category='Mindfulness' />
+			<ListAllGoals />
 		</div>
 	);
 }

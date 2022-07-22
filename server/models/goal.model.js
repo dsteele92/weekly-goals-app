@@ -7,7 +7,8 @@ const goalSchema = new mongoose.Schema({
 	},
 	category: {
 		type: String,
-		enum: ['Fitness', 'Nutrition', 'Mindfulness'],
+		required: true,
+		// enum: ['Fitness', 'Nutrition', 'Mindfulness'],
 	},
 	day: {
 		type: String,
