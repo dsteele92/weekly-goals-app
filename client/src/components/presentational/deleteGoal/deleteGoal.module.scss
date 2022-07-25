@@ -1,0 +1,16 @@
+@import 'sass';
+
+.center {
+	background-color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+}
+
+.exitButton {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}

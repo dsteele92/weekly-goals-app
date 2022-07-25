@@ -6,9 +6,24 @@
 		margin: 3px;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+
+		input {
+			background-color: $theme-color-three;
+			opacity: 0.8;
+			border-radius: 5px;
+			// border: 0.5px solid black;
+			border: none;
+			padding: 2px;
+			&:hover {
+				opacity: 1;
+			}
+		}
+		input:focus {
+			opacity: 1;
+		}
 
 		input[type='text'] {
-			padding: 2px;
 			width: 150px;
 			letter-spacing: 0.5px;
 		}
@@ -16,16 +31,32 @@
 			margin-right: 10px;
 		}
 		select {
+			background-color: $theme-color-three;
+			opacity: 0.8;
+			border-radius: 5px;
+			// border: 0.5px solid black;
+			border: none;
 			padding: 2px;
 			width: 100px;
 			letter-spacing: 0.5px;
+			&:hover {
+				opacity: 1;
+			}
 		}
 		input[type='number'] {
 			padding: 2px;
 			width: 50px;
 		}
-		button {
-			max-width: 100px;
-		}
+	}
+	button {
+		margin-top: 3px;
+		width: 100%;
+		padding: 2px;
+		letter-spacing: 0.5px;
+		background-color: $theme-color-three;
+		border: none;
+		border-radius: 5px;
+		// max-width: 100px;
+		align-self: center;
 	}
 }

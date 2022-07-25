@@ -1,6 +1,6 @@
 import React from 'react';
+import { EditGoals } from 'components';
 import { Container } from '@mui/material';
-import { AddNewGoal, ListAllGoals, EditGoals } from 'components';
 
 export default function EditPage() {
 	return (

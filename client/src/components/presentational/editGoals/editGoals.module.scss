@@ -1,5 +1,40 @@
 @import 'sass';
 
-.customCategory {
-	align-self: center;
+h1 {
+	margin: 5px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-align: center;
+}
+h2 {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+ul {
+	width: 100%;
+	list-style: none;
+	text-align: center;
+	letter-spacing: 1px;
+
+	li {
+		@include flex-row-5;
+
+		.listCount {
+			color: white;
+			border: 1px solid black;
+			background-color: $background-color-main;
+			border-radius: 50%;
+			box-sizing: border-box;
+			padding: 2px;
+			font-size: 8px;
+			font-weight: 700;
+			vertical-align: middle;
+			margin-left: 5px;
+		}
+
+		.EditIcon {
+		}
+	}
 }

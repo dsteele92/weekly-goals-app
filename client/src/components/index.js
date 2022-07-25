@@ -5,3 +5,5 @@ export { default as EditGoals } from './presentational/editGoals/EditGoals.jsx';
 export { default as Navbar } from './presentational/navbar/Navbar.jsx';
 export { default as ListAllGoals } from './presentational/ListAllGoals/ListAllGoals.jsx';
 export { default as AddNewGoal } from './presentational/addNewGoal/AddNewGoal.jsx';
+export { default as UpdateGoal } from './presentational/updateGoal/UpdateGoal.jsx';
+export { default as DeleteGoal } from './presentational/deleteGoal/DeleteGoal.jsx';
