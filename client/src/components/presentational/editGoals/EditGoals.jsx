@@ -15,10 +15,11 @@ export default function EditGoals() {
 	async function getGoals() {
 		try {
 			const goals = await axios.get('http://localhost:10000/goals');
+			console.log(goalsList);
 			if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
 				setGoalsList(goals.data);
+				console.log(goals.data);
 			}
-			console.log(goals.data);
 		} catch (e) {
 			console.log(e);
 		}

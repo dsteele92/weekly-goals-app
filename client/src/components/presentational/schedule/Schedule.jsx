@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import Style from './schedule.module.scss';
+// import Style from './schedule.module.scss';
 
 import { GoalCalendarBlock } from 'components';
 
@@ -8,76 +8,37 @@ export default function Schedule() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
 
-	useEffect(() => {
-		let cancel = false;
-		async function getGoals() {
-			try {
-				const goals = await axios.get('http://localhost:10000/goals');
-				if (cancel) return;
-				if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
-					setGoalsList(goals.data);
-				}
-				console.log(goals.data);
-			} catch (e) {
-				console.log(e);
+	async function getGoals() {
+		try {
+			const goals = await axios.get('http://localhost:10000/goals');
+			if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
+				setGoalsList(goals.data);
 			}
+			console.log(goals.data);
+		} catch (e) {
+			console.log(e);
 		}
+	}
 
-		if (allCategories.length === 0) {
-			getGoals();
+	async function getCategories() {
+		try {
+			const categories = await axios.get('http://localhost:10000/category');
+			setAllCategories(categories.data);
+		} catch (e) {
+			console.log(e);
 		}
+	}
 
-		return () => {
-			cancel = true;
-		};
-	});
+	/*this will be used to make sure that all of the data has been loaded
+	before rendering all of the GoalCalendarBlock components*/
+	let loaded = (goalsList.length !== 0) & (allCategories.length !== 0);
 
-	useEffect(() => {
-		let cancel = false;
-		async function getCategories() {
-			try {
-				const categories = await axios.get('http://localhost:10000/category');
-				setAllCategories(categories.data);
-			} catch (e) {
-				console.log(e);
-			}
-		}
-
-		if (allCategories.length === 0) {
-			getCategories();
-		}
-
-		return () => {
-			cancel = true;
-		};
-	});
-
-	// async function getGoals() {
-	// 	try {
-	// 		const goals = await axios.get('http://localhost:10000/goals');
-	// 		if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
-	// 			setGoalsList(goals.data);
-	// 		}
-	// 		console.log(goals.data);
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 	}
-	// }
-
-	// async function getCategories() {
-	// 	try {
-	// 		const categories = await axios.get('http://localhost:10000/category');
-	// 		setAllCategories(categories.data);
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 	}
-	// }
-
-	// // this will run the axios request on the first render of the component
-	// if (allCategories.length === 0) {
-	// 	getGoals();
-	// 	getCategories();
-	// }
+	// this will run the axios request on the first render of the component
+	let loading = goalsList.length !== 0 || allCategories.length !== 0;
+	if (!loading) {
+		getGoals();
+		getCategories();
+	}
 
 	let goalDisplayBlocks = [];
 
@@ -90,13 +51,19 @@ export default function Schedule() {
 
 	return (
 		<div>
-			{goalDisplayBlocks.map((goal, index) => (
-				<GoalCalendarBlock
-					key={index}
-					goal={goal}
-					category={allCategories.filter((cat) => cat.name === goal.category)}
-				/>
-			))}
+			{loaded ? (
+				<div>
+					{goalDisplayBlocks.map((goal, index) => (
+						<GoalCalendarBlock
+							key={index}
+							goal={goal}
+							category={allCategories.filter((cat) => cat.name === goal.category)}
+						/>
+					))}
+				</div>
+			) : (
+				<div>not loaded</div>
+			)}
 		</div>
 	);
 }

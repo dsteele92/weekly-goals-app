@@ -30,6 +30,13 @@ export default function UpdateGoal(props) {
 				data: data,
 			});
 			console.log(`GOAL UPDATED`);
+			if (customCategory) {
+				await axios({
+					method: 'post',
+					url: 'http://localhost:10000/category',
+					data: { name: `${customCategoryInput}`, color: 0 },
+				});
+			}
 			props.rerenderList();
 			props.unmount();
 		} catch (e) {
@@ -65,11 +72,16 @@ export default function UpdateGoal(props) {
 						<label htmlFor='category'>Category</label>
 						<select name='category' id='category' value={categoryInput} onChange={onCategoryChange}>
 							<option value=''>--Select--</option>
-							{props.categories.map((cat, index) => (
-								<option value={cat} key={index}>
-									{cat}
-								</option>
-							))}
+							<option value='Fitness'>Fitness</option>
+							<option value='Nutrition'>Nutrition</option>
+							<option value='Mindfulness'>Mindfulness</option>
+							{props.categories
+								.filter((cat) => !cat === 'Fitness' || !cat === 'Nutrition' || !cat === 'Mindfulness')
+								.map((cat, index) => (
+									<option value={cat} key={index}>
+										{cat}
+									</option>
+								))}
 							<option value='Custom'>Custom</option>
 						</select>
 					</div>

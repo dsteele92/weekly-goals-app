@@ -8,9 +8,27 @@
 	margin: 10px;
 }
 
-.calendarBlockFitness {
+.calendarBlock0 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-default;
+	}
+}
+.calendarBlock1 {
 	@include calendarBlock;
 	&::after {
 		background-color: $theme-color-one;
+	}
+}
+.calendarBlock2 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-two;
+	}
+}
+.calendarBlock3 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-three;
 	}
 }
