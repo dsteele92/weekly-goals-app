@@ -12,6 +12,8 @@ export default function UpdateGoal(props) {
 	const [nameInput, setNameInput] = useState(props.name);
 	const [categoryInput, setCategoryInput] = useState(isCustom ? 'Custom' : props.category);
 	const [customCategoryInput, setCustomCategoryInput] = useState(isCustom ? props.category : '');
+	const [timesPerWeek, setTimesPerWeek] = useState(props.timesPerWeek);
+
 	const [customCategory, setCustomCategory] = useState(isCustom);
 
 	async function update(e) {
@@ -19,25 +21,17 @@ export default function UpdateGoal(props) {
 		let data = {
 			name: nameInput,
 			category: customCategory ? customCategoryInput : categoryInput,
+			timesPerWeek: timesPerWeek,
 		};
 		try {
-			const responses = [];
-			const ids = props.ids;
-			for (const id in ids) {
-				const response = axios({
-					method: 'put',
-					url: `http://localhost:10000/goals/${ids[id]}`,
-					data: data,
-				});
-				responses.push(response);
-			}
-			await Promise.all(responses);
+			await axios({
+				method: 'put',
+				url: `http://localhost:10000/goals/${props.id}`,
+				data: data,
+			});
 			console.log(`GOAL UPDATED`);
+			props.rerenderList();
 			props.unmount();
-			// setNameInput('');
-			// setCategoryInput('--Select--');
-			// setCustomCategory(false);
-			// setCustomCategoryInput('');
 		} catch (e) {
 			console.log(e);
 		}
@@ -71,9 +65,11 @@ export default function UpdateGoal(props) {
 						<label htmlFor='category'>Category</label>
 						<select name='category' id='category' value={categoryInput} onChange={onCategoryChange}>
 							<option value=''>--Select--</option>
-							<option value='Fitness'>Fitness</option>
-							<option value='Nutrition'>Nutrition</option>
-							<option value='Mindfulness'>Mindfulness</option>
+							{props.categories.map((cat, index) => (
+								<option value={cat} key={index}>
+									{cat}
+								</option>
+							))}
 							<option value='Custom'>Custom</option>
 						</select>
 					</div>
@@ -91,7 +87,7 @@ export default function UpdateGoal(props) {
 					) : (
 						''
 					)}
-					{/* <div>
+					<div>
 						<label htmlFor='times'>Times per week</label>
 						<input
 							type='number'
@@ -99,7 +95,7 @@ export default function UpdateGoal(props) {
 							value={timesPerWeek}
 							onChange={(e) => setTimesPerWeek(e.target.value)}
 						/>
-					</div> */}
+					</div>
 					<button onClick={update}>Submit</button>
 				</form>
 			</div>

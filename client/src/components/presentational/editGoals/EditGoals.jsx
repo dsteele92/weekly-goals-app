@@ -12,58 +12,38 @@ export default function EditGoals() {
 	const [editGoal, setEditGoal] = useState(false);
 	const [deleteGoal, setDeleteGoal] = useState(false);
 
-	(async function getGoals() {
+	async function getGoals() {
 		try {
 			const goals = await axios.get('http://localhost:10000/goals');
 			if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
 				setGoalsList(goals.data);
-				console.log(goals.data);
 			}
+			console.log(goals.data);
 		} catch (e) {
 			console.log(e);
 		}
-	})();
+	}
 
-	let goalsDisplay = [];
+	// this will run the axios request on the first render of the ListAllGoals component
+	// getGoals function will be passed through as prop (rerenderList) for AddGoal component
+	// --> so that after adding a new goal, getGoals can be called to update the list and rerender
+	if (goalsList.length === 0) {
+		getGoals();
+	}
+
 	let categories = [];
 
-	/*
-    if the category does not exist, add to category and add to goalsDisplay
-    if the category exists, push category into categories array
-        -> then check: goal exists ? count++ : push new goal object
-    loop through categories array and create a div for each one
-        -> use filter method to map the array for each category
-    */
-
 	for (const goal in goalsList) {
-		const goalData = goalsList[goal];
-		const goalName = goalsList[goal].name;
 		const category = goalsList[goal].category;
-		const id = goalsList[goal]._id;
 		let catExists = false;
 		for (const cat in categories) {
 			if (category.toLowerCase() === categories[cat].toLowerCase()) {
 				catExists = true;
+				break;
 			}
 		}
 		if (!catExists) {
-			const li = { ...goalData, count: 1, ids: [id] };
 			categories.push(category);
-			goalsDisplay.push(li);
-		} else {
-			let goalExists = false;
-			for (const obj in goalsDisplay) {
-				if (goalName === goalsDisplay[obj].name) {
-					goalExists = true;
-					goalsDisplay[obj].count++;
-					goalsDisplay[obj].ids.push(id);
-					delete goalsDisplay[obj]._id;
-				}
-			}
-			if (!goalExists) {
-				const li = { ...goalData, count: 1, ids: [id] };
-				goalsDisplay.push(li);
-			}
 		}
 	}
 
@@ -99,13 +79,13 @@ export default function EditGoals() {
 					<div>
 						<h2>{cat}</h2>
 						<ul>
-							{goalsDisplay
+							{goalsList
 								.filter((goal) => goal.category.toLowerCase() === cat.toLowerCase())
 								.map((goal, index) => (
 									<li key={index}>
 										{goal.name}
-										{goal.count > 1 ? (
-											<span className={Style.listCount}>{`X${goal.count}`}</span>
+										{goal.timesPerWeek > 1 ? (
+											<span className={Style.listCount}>{`X${goal.timesPerWeek}`}</span>
 										) : (
 											''
 										)}
@@ -123,8 +103,11 @@ export default function EditGoals() {
 				<UpdateGoal
 					name={editGoal.name}
 					category={editGoal.category}
-					ids={editGoal.ids}
+					timesPerWeek={editGoal.timesPerWeek}
+					id={editGoal._id}
 					unmount={handleEditUnmount}
+					rerenderList={getGoals}
+					categories={categories}
 				/>
 			) : (
 				''
@@ -133,8 +116,11 @@ export default function EditGoals() {
 				<DeleteGoal
 					name={deleteGoal.name}
 					category={deleteGoal.category}
-					ids={deleteGoal.ids}
+					timesPerWeek={deleteGoal.timesPerWeek}
+					id={deleteGoal._id}
 					unmount={handleDeleteUnmount}
+					rerenderList={getGoals}
+					categories={categories}
 				/>
 			) : (
 				''

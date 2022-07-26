@@ -1,0 +1,16 @@
+@import 'sass';
+
+.calendarBlockContainer {
+	height: 30px;
+	width: 150px;
+	border: 1px black solid;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.calendarBlockFitness {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-one;
+	}
+}

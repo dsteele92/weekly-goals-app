@@ -17,33 +17,23 @@ exports.create = (req, res) => {
 
 	// Create a Goal
 	const goal = new Goal({
-		name: req.query.name,
-		category: req.query.category,
-		day: req.query.day ? req.query.day : 'unassigned',
+		name: req.body.name,
+		category: req.body.category,
+		timesPerWeek: req.body.timesPerWeek
 	});
 
 	// Save Goal in the database
-
-	// goal.save(function (err) {
-	// 	if (err) return handleError500(err);
-	// });
-
 	goal.save(goal)
 		.then((data) => {
 			res.send(data);
 		})
 		.catch((err) => handleError500(err));
-	// .catch((err) => {
-	// 	res.status(500).send({
-	// 		message: err.message || 'Some error occurred while creating the Goal.',
-	// 	});
-	// });
 };
 
 // Retrieve all Goals from the database.
 exports.findAll = (req, res) => {
-	const name = req.query.name;
-	const category = req.query.category;
+	const name = req.body.name;
+	const category = req.body.category;
 	var condition = name
 		? { name: { $regex: new RegExp(name), $options: 'i' } }
 		: category

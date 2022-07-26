@@ -1,4 +1,4 @@
 const Goal = require('./goal.model');
-const Cat = require('./cat.model');
+const Category = require('./category.model');
 
-module.exports = { Goal, Cat };
+module.exports = { Goal, Category };

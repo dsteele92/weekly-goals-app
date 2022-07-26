@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import Style from './deleteGoal.module.scss';
 
 export default function DeleteGoal(props) {
+	console.log(props.index);
+
 	async function deleteGoal(e) {
 		e.preventDefault();
 		try {
-			const responses = [];
-			const ids = props.ids;
-			for (const id in ids) {
-				const response = axios.delete(`http://localhost:10000/goals/${ids[id]}`);
-				responses.push(response);
-			}
-			await Promise.all(responses);
+			await axios.delete(`http://localhost:10000/goals/${props.id}`);
 			console.log(`GOAL(S) DELETED`);
+			props.rerenderList();
 			props.unmount();
 		} catch (e) {
 			console.log(e);
