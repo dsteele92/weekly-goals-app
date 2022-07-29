@@ -29,14 +29,17 @@ router.delete('/goals', goalsController.deleteAll);
 
 // -----> CATEGORY ROUTES
 
+// GET /category - get all categories OR search by name
+router.get('/category', categoriesController.findAll);
+
+// GET /goals/:id - get goal by id
+router.get('/category/:id', categoriesController.findOne);
+
 // POST /category - add new goal
 router.post('/category', categoriesController.create);
 
 // PUT /category/:id - update category by id
 router.put('/category/:id', categoriesController.update);
-
-// GET /category - get all categories OR search by name
-router.get('/category', categoriesController.findAll);
 
 // DELETE /category/:id - delete goal by id
 router.delete('/category/:id', categoriesController.delete);

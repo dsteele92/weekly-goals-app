@@ -25,10 +25,16 @@ export default function AddGoal(props) {
 
 	async function addGoal(e) {
 		e.preventDefault();
+		let days = [];
+		for (let i = 0; i < timesPerWeek; i++) {
+			const day = { unassigned: 0 };
+			days.push(day);
+		}
 		let data = {
 			name: nameInput,
 			category: customCategory ? customCategoryInput : categoryInput,
 			timesPerWeek: timesPerWeek,
+			days: days,
 		};
 		try {
 			await axios({

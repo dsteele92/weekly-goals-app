@@ -19,7 +19,8 @@ exports.create = (req, res) => {
 	const goal = new Goal({
 		name: req.body.name,
 		category: req.body.category,
-		timesPerWeek: req.body.timesPerWeek
+		timesPerWeek: req.body.timesPerWeek,
+		days: req.body.days
 	});
 
 	// Save Goal in the database

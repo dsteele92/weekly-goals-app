@@ -27,4 +27,9 @@
 		top: 0px;
 		left: 0px;
 	}
+
+	&:active::after {
+		top: 0px;
+		left: 0px;
+	}
 }

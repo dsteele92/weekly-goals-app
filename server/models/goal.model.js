@@ -18,7 +18,7 @@ const goalSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	days: [Number]
+	days: Object
 });
 
 const Goal = mongoose.model('Goal', goalSchema);
