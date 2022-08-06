@@ -8,8 +8,16 @@
 	box-sizing: border-box;
 	padding: 10px;
 	font-size: 60%;
+	font-weight: 500;
 	letter-spacing: 1px;
 	text-align: center;
+	line-height: 100%;
+
+	.span {
+		display: inline-block;
+		vertical-align: middle;
+		line-height: normal;
+	}
 
 	&::after {
 		content: '';

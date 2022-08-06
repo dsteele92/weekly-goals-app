@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './editGoals.module.scss';
-import { UpdateGoal, DeleteGoal } from 'components';
+import { AddGoal, UpdateGoal, DeleteGoal } from 'components';
 // Material UI -->
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -63,34 +63,36 @@ export default function EditGoals() {
 	}
 
 	return (
-		<div>
-			<h1>Edit Goals</h1>
-			{categories.map((cat, index) => (
-				<div
-					key={index}
-					className={
-						cat === 'Fitness'
-							? Style.fitness
-							: cat === 'Nutrition'
-							? Style.nutrition
-							: cat === 'Mindfulness'
-							? Style.mindfulness
-							: Style.container
-					}>
-					<div>
-						<h2>{cat}</h2>
+		<div className={Style.editGoals}>
+			<AddGoal rerenderList={getGoals} categories={categories} />
+			<div className={Style.goalsDisplay}>
+				{categories.map((cat, index) => (
+					<div
+						key={index}
+						className={
+							cat === 'Fitness'
+								? Style.fitness
+								: cat === 'Nutrition'
+								? Style.nutrition
+								: cat === 'Mindfulness'
+								? Style.mindfulness
+								: Style.custom
+						}>
+						<h2 className={Style.header}>{cat}</h2>
 						<ul>
 							{goalsList
 								.filter((goal) => goal.category.toLowerCase() === cat.toLowerCase())
 								.map((goal, index) => (
 									<li key={index}>
-										{goal.name}
-										{goal.timesPerWeek > 1 ? (
-											<span className={Style.listCount}>{`X${goal.timesPerWeek}`}</span>
-										) : (
-											''
-										)}
-										<span className={Style.EditIcon}>
+										<div>
+											{goal.name}
+											{goal.timesPerWeek > 1 ? (
+												<span className={Style.listCount}>{`X${goal.timesPerWeek}`}</span>
+											) : (
+												''
+											)}
+										</div>
+										<span>
 											<EditOutlinedIcon fontSize='small' onClick={() => editClick(goal)} />
 											<DeleteOutlinedIcon fontSize='small' onClick={() => deleteClick(goal)} />
 										</span>
@@ -98,34 +100,34 @@ export default function EditGoals() {
 								))}
 						</ul>
 					</div>
-				</div>
-			))}
-			{!(editGoal === false) ? (
-				<UpdateGoal
-					name={editGoal.name}
-					category={editGoal.category}
-					timesPerWeek={editGoal.timesPerWeek}
-					id={editGoal._id}
-					unmount={handleEditUnmount}
-					rerenderList={getGoals}
-					categories={categories}
-				/>
-			) : (
-				''
-			)}
-			{!(deleteGoal === false) ? (
-				<DeleteGoal
-					name={deleteGoal.name}
-					category={deleteGoal.category}
-					timesPerWeek={deleteGoal.timesPerWeek}
-					id={deleteGoal._id}
-					unmount={handleDeleteUnmount}
-					rerenderList={getGoals}
-					categories={categories}
-				/>
-			) : (
-				''
-			)}
+				))}
+				{!(editGoal === false) ? (
+					<UpdateGoal
+						name={editGoal.name}
+						category={editGoal.category}
+						timesPerWeek={editGoal.timesPerWeek}
+						id={editGoal._id}
+						unmount={handleEditUnmount}
+						rerenderList={getGoals}
+						categories={categories}
+					/>
+				) : (
+					''
+				)}
+				{!(deleteGoal === false) ? (
+					<DeleteGoal
+						name={deleteGoal.name}
+						category={deleteGoal.category}
+						timesPerWeek={deleteGoal.timesPerWeek}
+						id={deleteGoal._id}
+						unmount={handleDeleteUnmount}
+						rerenderList={getGoals}
+						categories={categories}
+					/>
+				) : (
+					''
+				)}
+			</div>
 		</div>
 	);
 }

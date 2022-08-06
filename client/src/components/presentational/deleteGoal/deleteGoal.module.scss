@@ -1,16 +1,23 @@
 @import 'sass';
 
-.center {
-	background-color: white;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 50%;
+.infoDisplay {
+	margin: 5px;
 }
 
-.exitButton {
-	position: absolute;
-	top: 5px;
-	right: 10px;
+.listCount {
+	color: white;
+	border: 1px solid black;
+	background-color: grey;
+	border-radius: 50%;
+	box-sizing: border-box;
+	padding: 2px;
+	font-size: 9px;
+	font-weight: 700;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+.buttons {
+	display: flex;
+	align-items: center;
 }

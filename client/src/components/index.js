@@ -1,10 +1,11 @@
 export { default as SetUp } from './presentational/setUp/SetUp.jsx';
-export { default as Schedule } from './presentational/schedule/Schedule.jsx';
-export { default as WeekCalendar } from './presentational/weekCalendar/WeekCalendar.jsx';
+export { default as Scheduler } from './presentational/scheduler/Scheduler.jsx';
+export { default as HomeWeekDisplay } from './presentational/homeWeekDisplay/HomeWeekDisplay.jsx';
 export { default as EditGoals } from './presentational/editGoals/EditGoals.jsx';
 export { default as Navbar } from './presentational/navbar/Navbar.jsx';
-export { default as ListAllGoals } from './presentational/ListAllGoals/ListAllGoals.jsx';
+export { default as ListAllGoals } from './presentational/listAllGoals/ListAllGoals.jsx';
 export { default as AddGoal } from './presentational/addGoal/AddGoal.jsx';
 export { default as UpdateGoal } from './presentational/updateGoal/UpdateGoal.jsx';
 export { default as DeleteGoal } from './presentational/deleteGoal/DeleteGoal.jsx';
-export { default as GoalCalendarBlock } from './presentational/goalCalendarBlock/GoalCalendarBlock.jsx';
+export { default as SchedulerGoalBlock } from './presentational/schedulerGoalBlock/SchedulerGoalBlock.jsx';
+export { default as HomeGoalBlock } from './presentational/homeGoalBlock/HomeGoalBlock.jsx';

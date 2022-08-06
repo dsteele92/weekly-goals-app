@@ -1,0 +1,69 @@
+@import 'sass';
+@mixin listDisplay {
+	ul {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		h3 {
+			text-align: center;
+		}
+	}
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	.scheduler {
+		display: flex;
+		justify-content: space-evenly;
+		margin: 10px;
+		// padding: 20px;
+
+		.unassignedGoals {
+			min-width: 200px;
+			margin: none;
+			@include listDisplay();
+			p {
+				margin: 5px;
+				font-style: italic;
+				font-size: small;
+				text-align: center;
+				width: 80%;
+			}
+		}
+
+		.week {
+			display: flex;
+			justify-content: flex-start;
+			flex-direction: row;
+
+			@media only screen and (max-width: 1174px) {
+				flex-direction: column;
+			}
+			@media only screen and (max-width: 1750px) {
+				flex-wrap: wrap;
+			}
+
+			.day {
+				min-height: 200px;
+				min-width: 200px;
+				border-left: 0.5px solid grey;
+				@media only screen and (max-width: 1174px) {
+					border: none;
+				}
+				@include listDisplay();
+			}
+			:last-child.day {
+				border-right: 0.5px solid grey;
+				@media only screen and (max-width: 1174px) {
+					border: none;
+				}
+			}
+		}
+	}
+	.saveButton {
+		align-self: center;
+	}
+}

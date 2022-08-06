@@ -5,3 +5,39 @@
 	top: 5px;
 	right: 10px;
 }
+
+.form {
+	width: 80%;
+	max-width: 300px;
+	margin: 5px 0px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	div {
+		margin: 5px 0px;
+		display: flex;
+		justify-content: space-between;
+
+		input[type='text'] {
+			padding: 2px;
+			width: 150px;
+			letter-spacing: 0.5px;
+		}
+		label {
+			margin-right: 10px;
+		}
+		select {
+			padding: 2px;
+			width: 100px;
+			letter-spacing: 0.5px;
+		}
+		input[type='number'] {
+			padding: 2px;
+			width: 50px;
+		}
+		button {
+			max-width: 100px;
+		}
+	}
+}

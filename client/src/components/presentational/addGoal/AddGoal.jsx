@@ -25,6 +25,7 @@ export default function AddGoal(props) {
 
 	async function addGoal(e) {
 		e.preventDefault();
+
 		let days = [];
 		for (let i = 0; i < timesPerWeek; i++) {
 			const day = { unassigned: 0 };
@@ -62,8 +63,8 @@ export default function AddGoal(props) {
 	}
 
 	return (
-		<div className={Style.container}>
-			<h4>Add New Goal</h4>
+		<div className={Style.addGoal}>
+			<h2 className={Style.header}>Add New Goal</h2>
 			<form className={Style.form}>
 				<div>
 					<label htmlFor='goal'>Goal</label>
@@ -71,6 +72,7 @@ export default function AddGoal(props) {
 						type='text'
 						name='goal'
 						id='goal'
+						maxLength='24'
 						value={nameInput}
 						onChange={(e) => setNameInput(e.target.value)}
 					/>
@@ -85,7 +87,7 @@ export default function AddGoal(props) {
 						{props.categories
 							.filter((cat) => !cat === 'Fitness' || !cat === 'Nutrition' || !cat === 'Mindfulness')
 							.map((cat, index) => (
-								<option value={cat} key={index}>
+								<option key={index} value={cat}>
 									{cat}
 								</option>
 							))}
@@ -99,6 +101,7 @@ export default function AddGoal(props) {
 							name='category'
 							id='category'
 							placeholder='Enter Custom Category'
+							maxLength='24'
 							value={customCategoryInput}
 							onChange={(e) => setCustomCategoryInput(e.target.value)}
 						/>

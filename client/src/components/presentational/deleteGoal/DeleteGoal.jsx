@@ -20,13 +20,19 @@ export default function DeleteGoal(props) {
 	return (
 		<div className={Style.modalBackground}>
 			<div className={Style.modal}>
-				<h4>Are you sure?</h4>
-				<div className={Style.exitButton} onClick={props.unmount}>
-					X
+				<h2>Are you sure?</h2>
+				<div className={Style.infoDisplay}>
+					{`Delete ${props.name}`}
+					{props.timesPerWeek > 1 ? <span className={Style.listCount}>{`X${props.timesPerWeek}`}</span> : ''}?
 				</div>
-				<div>{props.name}</div>
-				<div>{props.category}</div>
-				<button onClick={deleteGoal}>Delete</button>
+				<div className={Style.buttons}>
+					<button className={Style.cancelButton} onClick={props.unmount}>
+						Cancel
+					</button>
+					<button className={Style.deleteButton} onClick={deleteGoal}>
+						Delete
+					</button>
+				</div>
 			</div>
 		</div>
 	);

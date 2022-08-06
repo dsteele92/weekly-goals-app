@@ -53,7 +53,7 @@ export default function UpdateGoal(props) {
 	return (
 		<div className={Style.modalBackground}>
 			<div className={Style.modal}>
-				<h4>Update Goal</h4>
+				<h2>Update Goal</h2>
 				<div className={Style.exitButton} onClick={props.unmount}>
 					X
 				</div>

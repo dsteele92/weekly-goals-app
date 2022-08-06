@@ -3,7 +3,7 @@
 	display: flex;
 	flex-direction: column;
 	div {
-		margin: 3px;
+		margin: 5px 0px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -12,7 +12,6 @@
 			background-color: $theme-color-default;
 			opacity: 0.8;
 			border-radius: 5px;
-			// border: 0.5px solid black;
 			border: none;
 			padding: 2px;
 			&:hover {
@@ -56,7 +55,11 @@
 		background-color: $theme-color-default;
 		border: none;
 		border-radius: 5px;
-		// max-width: 100px;
-		align-self: center;
+		&:hover {
+			background-color: darken($color: $theme-color-default, $amount: 5%);
+		}
+		&:focus {
+			background-color: darken($color: $theme-color-default, $amount: 10%);
+		}
 	}
 }

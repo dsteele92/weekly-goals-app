@@ -1,77 +1,58 @@
-.container {
+@mixin container {
 	@include flex-column-2;
 	margin: 10px auto 10px;
-	max-width: 400px;
+	max-width: 800px;
 	padding: 5px;
-	border: 2px black solid;
-	border-radius: 10px;
-	// position: static;
+	// border: 2px black solid;
+	// border-radius: 10px;
+	padding: 10px 10px;
+	box-sizing: border-box;
+	ul {
+		width: 100%;
+		list-style: none;
+		text-align: center;
+		letter-spacing: 1px;
+
+		li {
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 15px;
+		}
+	}
+}
+
+.container {
+	@include container;
+	border-left: 2px solid $theme-color-default;
 }
 
 .fitness {
-	@include flex-column-2;
-	margin: 10px auto 10px;
-	max-width: 400px;
-	border: 2px rgb(0, 0, 0) solid;
-	border-radius: 10px;
-	padding: 5px;
+	@include container;
+	border-left: 2px solid $theme-color-one;
+	li {
+		border-bottom: 1px solid $theme-color-one;
+	}
 }
 .nutrition {
-	@include flex-column-2;
-	margin: 10px auto 10px;
-	max-width: 400px;
-	border: 2px rgb(0, 0, 0) solid;
-	border-radius: 10px;
-	padding: 5px;
+	@include container;
+	border-left: 2px solid $theme-color-two;
+	li {
+		border-bottom: 1px solid $theme-color-two;
+	}
 }
 .mindfulness {
-	@include flex-column-2;
-	margin: 10px auto 10px;
-	max-width: 400px;
-	border: 2px rgb(0, 0, 0) solid;
-	border-radius: 10px;
-	padding: 5px;
+	@include container;
+	border-left: 2px solid $theme-color-three;
+	li {
+		border-bottom: 1px solid $theme-color-three;
+	}
 }
-
-.modalContainer {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	background: rgba($color: #000000, $alpha: 0.5);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.modalBackground {
-	display: block;
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 9999;
-	width: 100%;
-	height: 100%;
-	padding-top: 100px;
-	background-color: black;
-	background-color: rgba(0, 0, 0, 0.4);
-	-webkit-transition: 0.5s;
-	overflow: auto;
-	transition: all 0.3s linear;
-}
-
-.modal {
-	background-color: rgb(255, 255, 255);
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 60%;
-	// height: 30%;
-	@include flex-column-5;
-	margin: 10px auto 10px;
-	padding: 10px;
-	border: 2px black solid;
-	border-radius: 10px;
+.custom {
+	@include container;
+	border-left: 2px solid $theme-color-default;
+	li {
+		border-bottom: 1px solid $theme-color-default;
+	}
 }
