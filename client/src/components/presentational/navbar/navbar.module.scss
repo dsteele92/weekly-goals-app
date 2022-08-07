@@ -30,12 +30,70 @@
 					list-style: none;
 					margin: 10px;
 					text-align: center;
+					cursor: pointer;
+
+					div {
+						height: 50px;
+						width: 50px;
+						border: 1px solid rgb(255, 255, 255);
+						border-radius: 50%;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						margin-bottom: 5px;
+						position: relative;
+						overflow: hidden;
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							height: 100%;
+							width: 100%;
+							transition: all 0.25s ease;
+							border-radius: 50%;
+						}
+
+						span {
+							z-index: 1;
+						}
+					}
 
 					a {
 						font-size: 10px;
 						letter-spacing: 1px;
 						color: white;
 						text-decoration: none;
+					}
+
+					.outIn {
+						&::before {
+							transition-duration: 0.5s;
+							box-shadow: inset 0 0 0 0px rgb(159, 188, 231);
+						}
+						&:hover::before {
+							box-shadow: inset 0 0 0 50px rgb(159, 188, 231);
+						}
+					}
+
+					.slide {
+						&::before {
+							box-shadow: inset 0 0 0 0px rgb(159, 188, 231);
+							margin-left: -100%;
+						}
+						&:hover::before {
+							box-shadow: inset 0 0 0 50px rgb(159, 188, 231);
+							margin-left: 0;
+						}
+					}
+
+					.collapse {
+						&::before {
+							border-radius: 0;
+						}
+						&:hover::before {
+							box-shadow: inset 0 25px 0 0 rgb(159, 188, 231), inset 0 -25px 0 0 rgb(159, 188, 231);
+						}
 					}
 				}
 				.Avatar {

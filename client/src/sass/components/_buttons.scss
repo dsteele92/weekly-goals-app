@@ -25,14 +25,14 @@
 	color: grey;
 	// text-shadow: 0.5px 0.5px 0.5px rgb(0, 0, 0);
 
-	// &:hover {
-	// 	background-color: darken($color: rgb(222, 30, 30), $amount: 5%);
-	// 	border-color: darken($color: rgb(222, 30, 30), $amount: 10%);
-	// }
-	// &:active {
-	// 	background-color: darken($color: rgb(222, 30, 30), $amount: 10%);
-	// 	border-color: darken($color: rgb(222, 30, 30), $amount: 15%);
-	// }
+	&:hover {
+		background-color: darken($color: rgb(255, 255, 255), $amount: 5%);
+		border-color: darken($color: grey, $amount: 10%);
+	}
+	&:active {
+		background-color: darken($color: rgb(255, 255, 255), $amount: 10%);
+		border-color: darken($color: grey, $amount: 15%);
+	}
 }
 
 .deleteButton {
@@ -50,8 +50,6 @@
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	color: white;
-	// font-weight: 500;
-	// text-shadow: 0.5px 0.5px 0.5px rgb(0, 0, 0);
 
 	&:hover {
 		background-color: darken($color: rgb(222, 30, 30), $amount: 5%);

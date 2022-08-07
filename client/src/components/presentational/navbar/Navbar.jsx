@@ -17,26 +17,32 @@ export default function Navbar() {
 					<ul>
 						<li>
 							<Link to='/'>
-								<div>
-									<HomeOutlinedIcon fontSize='large' />
-									<p>Home</p>
+								<div className={Style.outIn}>
+									<span>
+										<HomeOutlinedIcon fontSize='large' />
+									</span>
 								</div>
+								<p>Home</p>
 							</Link>
 						</li>
 						<li>
 							<Link to='/edit'>
-								<div>
-									<EditOutlinedIcon fontSize='large' />
-									<p>Edit</p>
+								<div className={Style.slide}>
+									<span>
+										<EditOutlinedIcon fontSize='large' />
+									</span>
 								</div>
+								<p>Edit</p>
 							</Link>
 						</li>
 						<li>
 							<Link to='/schedule'>
-								<div>
-									<CalendarMonthOutlinedIcon fontSize='large' />
-									<p>Schedule</p>
+								<div className={Style.collapse}>
+									<span>
+										<CalendarMonthOutlinedIcon fontSize='large' />
+									</span>
 								</div>
+								<p>Schedule</p>
 							</Link>
 						</li>
 						<li className={Style.Avatar}>
