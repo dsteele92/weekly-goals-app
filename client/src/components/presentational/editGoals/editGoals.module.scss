@@ -1,13 +1,13 @@
 @import 'sass';
 
 .editGoals {
+	margin-top: 10px;
 	max-width: 1200px;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 	display: flex;
 	justify-content: center;
-	padding-top: 10px;
 
 	@media only screen and (max-width: 700px) {
 		flex-direction: column;
@@ -17,6 +17,7 @@
 	.goalsDisplay {
 		position: relative;
 		.header {
+			text-transform: capitalize;
 			align-self: flex-start;
 			margin-left: 10px;
 		}

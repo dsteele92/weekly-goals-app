@@ -3,58 +3,38 @@ import axios from 'axios';
 import Style from './scheduler.module.scss';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { SchedulerGoalBlock, Header } from 'components';
+import { SchedulerGoalBlock } from 'components';
 
 export default function Scheduler() {
 	// goalsList is the data set from database, with each goal only once
 	// goalsDisplay is the list with an object for every instance of each goal
 	const [goalsList, setGoalsList] = useState([]);
-	const [goalsDisplay, setGoalsDisplay] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
-	const [updatedDropIds, setUpdatedDropIds] = useState([]);
+	const [updatedIds, setUpdatedIds] = useState([]);
 
 	async function getGoals() {
 		try {
 			const categories = await axios.get('http://localhost:10000/category');
 			const goals = await axios.get('http://localhost:10000/goals');
-			const goalsData = goals.data;
 			console.log(goals.data);
 
-			let allGoals = [];
-			for (const goal in goalsData) {
-				const count = goalsData[goal].timesPerWeek;
-				for (let i = 0; i < count; i++) {
-					// dropId is for tracking the movement of the display blocks
-					// dayInfo is for tracking the day and dayIndex of the individual display blocks
-					const dropId = goalsData[goal]._id.concat(`_${i}`);
-					const dayInfo = goalsData[goal].days[i];
-					const data = { ...goalsData[goal], dropId, dayInfo };
-					allGoals.push(data);
-				}
-			}
-			console.log(allGoals);
 			setAllCategories(categories.data);
-			setGoalsDisplay(allGoals);
-			setGoalsList(goalsData);
-			// console.log(allGoals.filter((goal) => 'wednesday' in goal.dayInfo));
+			setGoalsList(goals.data);
 		} catch (e) {
 			console.log(e);
 		}
 	}
 
 	// this will run the axios request on the first render of the component
-	let needToLoad = allCategories.length === 0 && goalsDisplay.length === 0 && goalsList.length === 0;
+	let needToLoad = allCategories.length === 0 && goalsList.length === 0;
 	// run getCategories() first so that needToLoad will turn false and wont have multiple axios requests
 	if (needToLoad) {
 		getGoals();
 	}
 
-	/*
-	this will be used to make sure that all of the data has been loaded
-	before returning the page content... returning the child components without the data causes an error
-	> unassignedGoals is the last state to be set after the axios request
-	*/
-	let loaded = allCategories.length !== 0 && goalsDisplay.length !== 0 && goalsList.length !== 0;
+	// this will be used to make sure that all of the data has been loaded
+	// before returning the page content... returning the child components without the data causes an error
+	let loaded = allCategories.length !== 0 && goalsList.length !== 0;
 
 	function handleOnDragEnd(result) {
 		if (!result.destination) return;
@@ -62,36 +42,18 @@ export default function Scheduler() {
 
 		let changes = [];
 
-		// const trackChanges = function (dropId) {
-		// 	let update = Array.from(updatedDropIds);
-		// 	if (!update.includes(dropId)) {
-		// 		update.push(dropId);
-		// 		setUpdatedDropIds(update);
-		// 	}
-		// };
-
-		/*
-		>>> dropId and dayInfo are used to track the movement and data changes of each goal
-		>>> _id and days (on original objects in goalsList) are used to update the database
-		*/
-
 		const source = result.source.droppableId;
 		const sourceIndex = result.source.index;
 		const destination = result.destination.droppableId;
 		const destinationIndex = result.destination.index;
 
 		// > find index of goal being moved
-		const items = Array.from(goalsDisplay);
-		const index = items.findIndex((goal) => goal.dropId === result.draggableId);
+		const items = Array.from(goalsList);
+		const index = items.findIndex((goal) => goal._id === result.draggableId);
 
-		// > delete property for the day it came from, then add new property for the day it is being assigned to
-		// delete items[index].dayInfo[source];
-		// items[index].dayInfo[destination] = destinationIndex;
-
-		let update = {};
-		update[destination] = destinationIndex;
-		items[index].dayInfo = update;
-
+		// 3 changes to make: update day, update day index, track the id being changed in an array
+		items[index].day = destination;
+		items[index].dayIndex = destinationIndex;
 		changes.push(result.draggableId);
 
 		// > for other goals in the source list (except for unassigned list), if index is greater, subtract it by 1
@@ -99,95 +61,93 @@ export default function Scheduler() {
 
 		for (const item in items) {
 			const goal = items[item];
-			if (goal.dropId !== result.draggableId) {
+			if (goal._id !== result.draggableId) {
 				if (source !== destination) {
-					if (source in goal.dayInfo) {
-						if (goal.dayInfo[source] > sourceIndex) {
-							goal.dayInfo[source]--;
-							changes.push(goal.dropId);
+					if (source === goal.day) {
+						if (goal.dayIndex > sourceIndex) {
+							goal.dayIndex--;
+							changes.push(goal._id);
 						}
 					}
-					if (destination in goal.dayInfo) {
-						if (goal.dayInfo[destination] >= destinationIndex) {
-							goal.dayInfo[destination]++;
-							changes.push(goal.dropId);
+					if (destination === goal.day) {
+						if (goal.dayIndex >= destinationIndex) {
+							goal.dayIndex++;
+							changes.push(goal._id);
 						}
 					}
 				} else {
-					if (source in goal.dayInfo) {
-						if (goal.dayInfo[source] < sourceIndex && goal.dayInfo[source] >= destinationIndex) {
-							goal.dayInfo[source]++;
-							changes.push(goal.dropId);
+					if (source === goal.day) {
+						if (goal.dayIndex < sourceIndex && goal.dayIndex >= destinationIndex) {
+							goal.dayIndex++;
+							changes.push(goal._id);
 						}
-						if (goal.dayInfo[source] > sourceIndex && goal.dayInfo[source] <= destinationIndex) {
-							goal.dayInfo[source]--;
-							changes.push(goal.dropId);
+						if (goal.dayIndex > sourceIndex && goal.dayIndex <= destinationIndex) {
+							goal.dayIndex--;
+							changes.push(goal._id);
 						}
 					}
 				}
 			}
-			setGoalsDisplay(items);
+			setGoalsList(items);
 
-			let dropIds = Array.from(updatedDropIds);
+			// we have added all of the changed ids to the changes array
+			// iterate through that and update the updatedIds state to include them (if they are not already included)
+			let ids = Array.from(updatedIds);
 			for (const change in changes) {
-				if (!dropIds.includes(changes[change])) {
-					dropIds.push(changes[change]);
+				if (!ids.includes(changes[change])) {
+					ids.push(changes[change]);
 				}
-				setUpdatedDropIds(dropIds);
+				setUpdatedIds(ids);
 			}
 		}
-
-		/*
-		to keep track of changes:
-		create state array of updated dropId's --> updatedDropIds
-		*/
 	}
 
 	/*
 	ON SAVE:
 	*/
 	const onSave = async function () {
-		// updates will contain the object to be passed into the update PUT request
-		// ids array will be used to check if object for that id has already been created or not
-		let updates = [];
-		const ids = [];
-		for (const item in updatedDropIds) {
-			const dropId = updatedDropIds[item];
-			const subIdIndex = dropId.indexOf('_') + 1;
-			const subId = dropId.slice(subIdIndex);
-			const id = dropId.slice(0, subIdIndex - 1);
-
-			const updatedGoal = goalsDisplay.filter((goal) => goal.dropId === dropId);
-			const newData = updatedGoal[0].dayInfo;
-
-			if (!ids.includes(id)) {
-				// console.log('NEW UPDATE DATA');
-				const originalGoal = goalsList.filter((goal) => goal._id === id);
-				const days = originalGoal[0].days;
-				days[subId] = newData;
-
-				const updateData = {
-					id: id,
-					days: days,
-				};
-
-				updates.push(updateData);
-				ids.push(id);
-			} else {
-				const index = ids.indexOf(id);
-				updates[index].days[subId] = newData;
-			}
-		}
-		console.log(updates);
-
+		// 	// updates will contain the object to be passed into the update PUT request
+		// 	// ids array will be used to check if object for that id has already been created or not
+		// 	let updates = [];
+		// 	const ids = [];
+		// 	for (const item in updatedDropIds) {
+		// 		const dropId = updatedDropIds[item];
+		// 		const subIdIndex = dropId.indexOf('_') + 1;
+		// 		const subId = dropId.slice(subIdIndex);
+		// 		const id = dropId.slice(0, subIdIndex - 1);
+		// 		const updatedGoal = goalsDisplay.filter((goal) => goal.dropId === dropId);
+		// 		const newData = updatedGoal[0].dayInfo;
+		// 		if (!ids.includes(id)) {
+		// 			// console.log('NEW UPDATE DATA');
+		// 			const originalGoal = goalsList.filter((goal) => goal._id === id);
+		// 			const days = originalGoal[0].days;
+		// 			days[subId] = newData;
+		// 			const updateData = {
+		// 				id: id,
+		// 				days: days,
+		// 			};
+		// 			updates.push(updateData);
+		// 			ids.push(id);
+		// 		} else {
+		// 			const index = ids.indexOf(id);
+		// 			updates[index].days[subId] = newData;
+		// 		}
+		// 	}
+		// 	console.log(updates);
 		let requests = [];
-
-		for (const update in updates) {
-			const updateId = updates[update].id;
-			const updateData = { days: updates[update].days };
+		// console.log(goalsList);
+		// console.log(updatedIds);
+		for (const updatedId in updatedIds) {
+			const id = updatedIds[updatedId];
+			const data = goalsList.filter((goal) => goal._id === id)[0];
+			const updateData = {
+				day: data.day,
+				dayIndex: data.dayIndex,
+			};
+			console.log(updateData);
 			const request = axios({
 				method: 'put',
-				url: `http://localhost:10000/goals/${updateId}`,
+				url: `http://localhost:10000/goals/${id}`,
 				data: updateData,
 			});
 			requests.push(request);
@@ -196,13 +156,6 @@ export default function Scheduler() {
 			.then((values) => console.log(values))
 			.catch((err) => console.log(err));
 	};
-
-	// > obtain the number after _ in dayId
-	// >> let _ = dayId.indexOf(_)
-	// >> let subId = dayId.slice(_)
-	// > update parent data goalsList.days[subId] = goal.dayInfo
-	// ...
-	// ON SAVE: if goal has changed, update via axios.put
 
 	return (
 		<div className={Style.page}>
@@ -216,13 +169,10 @@ export default function Scheduler() {
 										<ul className='unassigned' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Goals</h3>
 											<p>Drag goals to desired day, then click save.</p>
-											{goalsDisplay
-												.filter((goal) => 'unassigned' in goal.dayInfo)
+											{goalsList
+												.filter((goal) => goal.day === 'unassigned')
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -231,7 +181,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -246,18 +198,15 @@ export default function Scheduler() {
 						</section>
 						<section className={Style.week}>
 							<div className={Style.day}>
-								<Droppable droppableId='monday'>
+								<Droppable droppableId='Monday'>
 									{(provided) => (
-										<ul className='monday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Monday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Monday</h3>
-											{goalsDisplay
-												.filter((goal) => 'monday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.monday - b.dayInfo.monday)
+											{goalsList
+												.filter((goal) => goal.day === 'Monday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -266,7 +215,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -279,18 +230,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='tuesday'>
+								<Droppable droppableId='Tuesday'>
 									{(provided) => (
-										<ul className='tuesday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Tuesday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Tuesday</h3>
-											{goalsDisplay
-												.filter((goal) => 'tuesday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.tuesday - b.dayInfo.tuesday)
+											{goalsList
+												.filter((goal) => goal.day === 'Tuesday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -299,7 +247,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -312,18 +262,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='wednesday'>
+								<Droppable droppableId='Wednesday'>
 									{(provided) => (
-										<ul className='wednesday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Wednesday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Wednesday</h3>
-											{goalsDisplay
-												.filter((goal) => 'wednesday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.wednesday - b.dayInfo.wednesday)
+											{goalsList
+												.filter((goal) => goal.day === 'Wednesday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -332,7 +279,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -345,18 +294,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='thursday'>
+								<Droppable droppableId='Thursday'>
 									{(provided) => (
-										<ul className='thursday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Thursday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Thursday</h3>
-											{goalsDisplay
-												.filter((goal) => 'thursday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.thursday - b.dayInfo.thursday)
+											{goalsList
+												.filter((goal) => goal.day === 'Thursday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -365,7 +311,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -378,18 +326,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='friday'>
+								<Droppable droppableId='Friday'>
 									{(provided) => (
-										<ul className='friday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Friday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Friday</h3>
-											{goalsDisplay
-												.filter((goal) => 'friday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.friday - b.dayInfo.friday)
+											{goalsList
+												.filter((goal) => goal.day === 'Friday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -398,7 +343,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -411,18 +358,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='saturday'>
+								<Droppable droppableId='Saturday'>
 									{(provided) => (
-										<ul className='saturday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Saturday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Saturday</h3>
-											{goalsDisplay
-												.filter((goal) => 'saturday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.saturday - b.dayInfo.saturday)
+											{goalsList
+												.filter((goal) => goal.day === 'Saturday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -431,7 +375,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>
@@ -444,18 +390,15 @@ export default function Scheduler() {
 								</Droppable>
 							</div>
 							<div className={Style.day}>
-								<Droppable droppableId='sunday'>
+								<Droppable droppableId='Sunday'>
 									{(provided) => (
-										<ul className='sunday' {...provided.droppableProps} ref={provided.innerRef}>
+										<ul className='Sunday' {...provided.droppableProps} ref={provided.innerRef}>
 											<h3>Sunday</h3>
-											{goalsDisplay
-												.filter((goal) => 'sunday' in goal.dayInfo)
-												.sort((a, b) => a.dayInfo.sunday - b.dayInfo.sunday)
+											{goalsList
+												.filter((goal) => goal.day === 'Sunday')
+												.sort((a, b) => a.dayIndex - b.dayIndex)
 												.map((goal, index) => (
-													<Draggable
-														key={goal.dropId}
-														draggableId={goal.dropId}
-														index={index}>
+													<Draggable key={goal._id} draggableId={goal._id} index={index}>
 														{(provided) => (
 															<li
 																ref={provided.innerRef}
@@ -464,7 +407,9 @@ export default function Scheduler() {
 																<SchedulerGoalBlock
 																	goal={goal}
 																	category={allCategories.filter(
-																		(cat) => cat.name === goal.category
+																		(cat) =>
+																			cat.name.toLowerCase() ===
+																			goal.category.toLowerCase()
 																	)}
 																/>
 															</li>

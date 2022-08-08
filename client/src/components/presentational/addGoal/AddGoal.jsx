@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './addGoal.module.scss';
 
+import { FormValidationModal } from 'components';
+
 export default function AddGoal(props) {
 	const [nameInput, setNameInput] = useState('');
 	const [categoryInput, setCategoryInput] = useState('');
+	const [customCategory, setCustomCategory] = useState(false);
 	const [customCategoryInput, setCustomCategoryInput] = useState('');
 	const [timesPerWeek, setTimesPerWeek] = useState(1);
-
-	const [customCategory, setCustomCategory] = useState(false);
+	const [formValidationModal, setFormValidationModal] = useState(false);
 
 	/* if "Custom" option is selected from drop down:
 	---> change customCategory state to true
@@ -23,34 +25,53 @@ export default function AddGoal(props) {
 		console.log(e.target.value);
 	}
 
+	function handleUnmount() {
+		setFormValidationModal(false);
+	}
+
 	async function addGoal(e) {
 		e.preventDefault();
 
-		let days = [];
-		for (let i = 0; i < timesPerWeek; i++) {
-			const day = { unassigned: 0 };
-			days.push(day);
+		// form validation
+		if (
+			nameInput.length === 0 ||
+			categoryInput.length === 0 ||
+			(customCategory && customCategoryInput.length === 0)
+		) {
+			setFormValidationModal(true);
+			return;
 		}
+
 		let data = {
 			name: nameInput,
 			category: customCategory ? customCategoryInput : categoryInput,
-			timesPerWeek: timesPerWeek,
-			days: days,
 		};
 		try {
-			await axios({
-				method: 'post',
-				url: 'http://localhost:10000/goals',
-				data: data,
-			});
-			console.log(`Goal added! Name: ${nameInput}, category: ${categoryInput}, timesPerWeek: ${timesPerWeek}`);
-			if (customCategory) {
-				await axios({
+			let requests = [];
+			for (let i = 0; i < timesPerWeek; i++) {
+				const request = await axios({
 					method: 'post',
-					url: 'http://localhost:10000/category',
-					data: { name: `${customCategoryInput}`, color: 0 },
+					url: 'http://localhost:10000/goals',
+					data: data,
 				});
+				requests.push(request);
 			}
+			if (customCategory) {
+				if (
+					!props.allCategories
+						.map((cat) => cat.name.toLowerCase())
+						.includes(customCategoryInput.toLowerCase())
+				) {
+					console.log(props.allCategories);
+					const request = await axios({
+						method: 'post',
+						url: 'http://localhost:10000/category',
+						data: { name: `${customCategoryInput}`, color: 0 },
+					});
+					requests.push(request);
+				}
+			}
+			Promise.all(requests);
 			setNameInput('');
 			setCategoryInput('--Select--');
 			setTimesPerWeek(1);
@@ -121,6 +142,7 @@ export default function AddGoal(props) {
 				</div>
 				<button onClick={addGoal}>Submit</button>
 			</form>
+			{formValidationModal ? <FormValidationModal unmount={handleUnmount} /> : ''}
 		</div>
 	);
 }

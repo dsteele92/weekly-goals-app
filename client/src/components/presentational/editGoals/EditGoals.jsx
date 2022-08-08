@@ -1,25 +1,49 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './editGoals.module.scss';
-import { AddGoal, UpdateGoal, DeleteGoal } from 'components';
+import { AddGoal, UpdateGoal, DeleteGoal, Modal } from 'components';
 // Material UI -->
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 export default function EditGoals() {
 	const [goalsList, setGoalsList] = useState([]);
+	const [goalsDisplay, setGoalsDisplay] = useState([]);
+	const [allCategories, setAllCategories] = useState([]);
+	const [categories, setCategories] = useState([]);
 
 	const [editGoal, setEditGoal] = useState(false);
 	const [deleteGoal, setDeleteGoal] = useState(false);
 
 	async function getGoals() {
 		try {
+			const categoriesRequest = await axios.get('http://localhost:10000/category');
 			const goals = await axios.get('http://localhost:10000/goals');
-			console.log(goalsList);
-			if (JSON.stringify(goalsList) !== JSON.stringify(goals.data)) {
-				setGoalsList(goals.data);
-				console.log(goals.data);
+			const goalsData = goals.data;
+			console.log(goalsData);
+			// only set state if the data has changed
+			if (JSON.stringify(goalsList) !== JSON.stringify(goalsData)) {
+				setGoalsList(goalsData);
 			}
+			// --> Consolidate goals w/ multiple X per week into one display item
+			let consolidatedData = [];
+			for (const goal in goalsData) {
+				let goalName = goalsData[goal].name;
+				let exists = false;
+				for (const item in consolidatedData) {
+					if (goalName === consolidatedData[item].name) {
+						exists = true;
+						consolidatedData[item].count++;
+						break;
+					}
+				}
+				if (!exists) {
+					let li = { ...goalsData[goal], count: 1 };
+					consolidatedData.push(li);
+				}
+			}
+			setGoalsDisplay(consolidatedData);
+			setAllCategories(categoriesRequest.data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -27,25 +51,41 @@ export default function EditGoals() {
 
 	// this will run the axios request on the first render of the ListAllGoals component
 	// getGoals function will be passed through as prop (rerenderList) for AddGoal component
-	// --> so that after adding a new goal, getGoals can be called to update the list and rerender
 	if (goalsList.length === 0) {
 		getGoals();
 	}
 
-	let categories = [];
-
+	//--> filter allCategories data set for currentCategories
+	let currentCategories = [];
 	for (const goal in goalsList) {
 		const category = goalsList[goal].category;
 		let catExists = false;
-		for (const cat in categories) {
-			if (category.toLowerCase() === categories[cat].toLowerCase()) {
+		for (const cat in currentCategories) {
+			if (category.toLowerCase() === currentCategories[cat].toLowerCase()) {
 				catExists = true;
 				break;
 			}
 		}
 		if (!catExists) {
-			categories.push(category);
+			currentCategories.push(category);
 		}
+	}
+	if (allCategories.length > 0) {
+		const filtered = allCategories.filter((cat) => currentCategories.includes(cat.name));
+		if (JSON.stringify(filtered) !== JSON.stringify(categories)) {
+			// console.log(currentCategories);
+			// console.log(allCategories);
+			// console.log(filtered);
+			setCategories(filtered);
+		}
+	}
+
+	// --> functions for updateGoal and deleteGoal modals
+	function editClick(data) {
+		setEditGoal(data);
+	}
+	function deleteClick(data) {
+		setDeleteGoal(data);
 	}
 
 	function handleEditUnmount() {
@@ -55,39 +95,23 @@ export default function EditGoals() {
 		setDeleteGoal(false);
 	}
 
-	function editClick(data) {
-		setEditGoal(data);
-	}
-	function deleteClick(data) {
-		setDeleteGoal(data);
-	}
-
 	return (
 		<div className={Style.editGoals}>
-			<AddGoal rerenderList={getGoals} categories={categories} />
+			<AddGoal rerenderList={getGoals} categories={categories} allCategories={allCategories} />
 			<div className={Style.goalsDisplay}>
+				{goalsDisplay.length === 0 ? <Modal text='Add new goals to get started!' /> : ''}
 				{categories.map((cat, index) => (
-					<div
-						key={index}
-						className={
-							cat === 'Fitness'
-								? Style.fitness
-								: cat === 'Nutrition'
-								? Style.nutrition
-								: cat === 'Mindfulness'
-								? Style.mindfulness
-								: Style.custom
-						}>
-						<h2 className={Style.header}>{cat}</h2>
+					<div key={index} className={Style[`container${cat.color}`]}>
+						<h2 className={Style.header}>{cat.name}</h2>
 						<ul>
-							{goalsList
-								.filter((goal) => goal.category.toLowerCase() === cat.toLowerCase())
+							{goalsDisplay
+								.filter((goal) => goal.category.toLowerCase() === cat.name.toLowerCase())
 								.map((goal, index) => (
 									<li key={index}>
 										<div>
 											{goal.name}
-											{goal.timesPerWeek > 1 ? (
-												<span className={Style.listCount}>{`X${goal.timesPerWeek}`}</span>
+											{goal.count > 1 ? (
+												<span className={Style.listCount}>{`X${goal.count}`}</span>
 											) : (
 												''
 											)}
@@ -101,33 +125,34 @@ export default function EditGoals() {
 						</ul>
 					</div>
 				))}
-				{!(editGoal === false) ? (
-					<UpdateGoal
-						name={editGoal.name}
-						category={editGoal.category}
-						timesPerWeek={editGoal.timesPerWeek}
-						id={editGoal._id}
-						unmount={handleEditUnmount}
-						rerenderList={getGoals}
-						categories={categories}
-					/>
-				) : (
-					''
-				)}
-				{!(deleteGoal === false) ? (
-					<DeleteGoal
-						name={deleteGoal.name}
-						category={deleteGoal.category}
-						timesPerWeek={deleteGoal.timesPerWeek}
-						id={deleteGoal._id}
-						unmount={handleDeleteUnmount}
-						rerenderList={getGoals}
-						categories={categories}
-					/>
-				) : (
-					''
-				)}
 			</div>
+			{editGoal ? (
+				<UpdateGoal
+					name={editGoal.name}
+					category={editGoal.category}
+					timesPerWeek={editGoal.count}
+					goals={goalsList}
+					unmount={handleEditUnmount}
+					rerenderList={getGoals}
+					categories={categories}
+					allCategories={allCategories}
+				/>
+			) : (
+				''
+			)}
+			{deleteGoal ? (
+				<DeleteGoal
+					name={deleteGoal.name}
+					category={deleteGoal.category}
+					timesPerWeek={deleteGoal.count}
+					goals={goalsList}
+					unmount={handleDeleteUnmount}
+					rerenderList={getGoals}
+					allCategories={allCategories}
+				/>
+			) : (
+				''
+			)}
 		</div>
 	);
 }

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import './App.scss';
 
 import { Navbar } from 'components';
-import { HomePage, AddPage, EditPage, SchedulePage } from 'pages';
+import { HomePage, EditPage, SchedulePage } from 'pages';
 
 const App = () => {
 	return (
@@ -13,7 +13,6 @@ const App = () => {
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<HomePage />} />
-					<Route path='/add' element={<AddPage />} />
 					<Route path='/edit' element={<EditPage />} />
 					<Route path='/schedule' element={<SchedulePage />} />
 				</Routes>

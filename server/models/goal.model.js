@@ -8,17 +8,25 @@ const mongoose = require('mongoose');
 const goalSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
 	},
 	category: {
 		type: String,
-		required: true
+		required: true,
 	},
-	timesPerWeek: {
+	day: {
+		type: String,
+		enum: ['unassigned', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+		default: 'unassigned',
+	},
+	dayIndex: {
 		type: Number,
-		required: true
+		default: 0,
 	},
-	days: Object
+	completed: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const Goal = mongoose.model('Goal', goalSchema);

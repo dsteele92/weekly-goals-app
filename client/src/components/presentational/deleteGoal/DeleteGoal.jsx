@@ -3,12 +3,21 @@ import axios from 'axios';
 import Style from './deleteGoal.module.scss';
 
 export default function DeleteGoal(props) {
-	console.log(props.index);
+	console.log(props.goals);
 
 	async function deleteGoal(e) {
 		e.preventDefault();
+		const goalsToDelete = props.goals.filter((goal) => goal.name === props.name);
+		let idsToDelete = goalsToDelete.map((goal) => goal._id);
+		console.log(idsToDelete);
 		try {
-			await axios.delete(`http://localhost:10000/goals/${props.id}`);
+			let requests = [];
+			for (let i in idsToDelete) {
+				const id = idsToDelete[i];
+				const request = await axios.delete(`http://localhost:10000/goals/${id}`);
+				requests.push(request);
+			}
+			Promise.all(requests);
 			console.log(`GOAL(S) DELETED`);
 			props.rerenderList();
 			props.unmount();

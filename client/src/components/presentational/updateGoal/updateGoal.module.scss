@@ -1,5 +1,9 @@
 @import 'sass';
 
+.updateH2 {
+	margin-top: 5px;
+}
+
 .exitButton {
 	position: absolute;
 	top: 5px;
@@ -9,7 +13,7 @@
 .form {
 	width: 80%;
 	max-width: 300px;
-	margin: 5px 0px;
+	margin: 5px 0px 10px;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
