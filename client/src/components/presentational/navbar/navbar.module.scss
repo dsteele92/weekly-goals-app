@@ -69,20 +69,20 @@
 					.outIn {
 						&::before {
 							transition-duration: 0.5s;
-							box-shadow: inset 0 0 0 0px rgb(159, 188, 231);
+							box-shadow: inset 0 0 0 0px $theme-color-sky;
 						}
 						&:hover::before {
-							box-shadow: inset 0 0 0 50px rgb(159, 188, 231);
+							box-shadow: inset 0 0 0 50px $theme-color-sky;
 						}
 					}
 
 					.slide {
 						&::before {
-							box-shadow: inset 0 0 0 0px rgb(159, 188, 231);
+							box-shadow: inset 0 0 0 0px $theme-color-sky;
 							margin-left: -100%;
 						}
 						&:hover::before {
-							box-shadow: inset 0 0 0 50px rgb(159, 188, 231);
+							box-shadow: inset 0 0 0 50px $theme-color-sky;
 							margin-left: 0;
 						}
 					}
@@ -92,7 +92,7 @@
 							border-radius: 0;
 						}
 						&:hover::before {
-							box-shadow: inset 0 25px 0 0 rgb(159, 188, 231), inset 0 -25px 0 0 rgb(159, 188, 231);
+							box-shadow: inset 0 25px 0 0 $theme-color-sky, inset 0 -25px 0 0 rgb(159, 188, 231);
 						}
 					}
 				}

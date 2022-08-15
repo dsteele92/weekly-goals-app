@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import Style from './deleteGoal.module.scss';
+import { Button } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../../theme.js';
 
 export default function DeleteGoal(props) {
 	console.log(props.goals);
@@ -14,10 +17,10 @@ export default function DeleteGoal(props) {
 			let requests = [];
 			for (let i in idsToDelete) {
 				const id = idsToDelete[i];
-				const request = await axios.delete(`http://localhost:10000/goals/${id}`);
+				const request = axios.delete(`http://localhost:10000/goals/${id}`);
 				requests.push(request);
 			}
-			Promise.all(requests);
+			await Promise.all(requests);
 			console.log(`GOAL(S) DELETED`);
 			props.rerenderList();
 			props.unmount();
@@ -35,12 +38,14 @@ export default function DeleteGoal(props) {
 					{props.timesPerWeek > 1 ? <span className={Style.listCount}>{`X${props.timesPerWeek}`}</span> : ''}?
 				</div>
 				<div className={Style.buttons}>
-					<button className={Style.cancelButton} onClick={props.unmount}>
-						Cancel
-					</button>
-					<button className={Style.deleteButton} onClick={deleteGoal}>
-						Delete
-					</button>
+					<ThemeProvider theme={theme}>
+						<Button className={Style.buttonsMUI} variant='outlined' onClick={props.unmount}>
+							CANCEL
+						</Button>
+						<Button className={Style.buttonsMUI} variant='contained' color='warning' onClick={deleteGoal}>
+							DELETE
+						</Button>
+					</ThemeProvider>
 				</div>
 			</div>
 		</div>

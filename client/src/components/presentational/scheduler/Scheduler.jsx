@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './scheduler.module.scss';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Button } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../../theme.js';
 
 import { SchedulerGoalBlock } from 'components';
 
@@ -106,37 +109,7 @@ export default function Scheduler() {
 	ON SAVE:
 	*/
 	const onSave = async function () {
-		// 	// updates will contain the object to be passed into the update PUT request
-		// 	// ids array will be used to check if object for that id has already been created or not
-		// 	let updates = [];
-		// 	const ids = [];
-		// 	for (const item in updatedDropIds) {
-		// 		const dropId = updatedDropIds[item];
-		// 		const subIdIndex = dropId.indexOf('_') + 1;
-		// 		const subId = dropId.slice(subIdIndex);
-		// 		const id = dropId.slice(0, subIdIndex - 1);
-		// 		const updatedGoal = goalsDisplay.filter((goal) => goal.dropId === dropId);
-		// 		const newData = updatedGoal[0].dayInfo;
-		// 		if (!ids.includes(id)) {
-		// 			// console.log('NEW UPDATE DATA');
-		// 			const originalGoal = goalsList.filter((goal) => goal._id === id);
-		// 			const days = originalGoal[0].days;
-		// 			days[subId] = newData;
-		// 			const updateData = {
-		// 				id: id,
-		// 				days: days,
-		// 			};
-		// 			updates.push(updateData);
-		// 			ids.push(id);
-		// 		} else {
-		// 			const index = ids.indexOf(id);
-		// 			updates[index].days[subId] = newData;
-		// 		}
-		// 	}
-		// 	console.log(updates);
 		let requests = [];
-		// console.log(goalsList);
-		// console.log(updatedIds);
 		for (const updatedId in updatedIds) {
 			const id = updatedIds[updatedId];
 			const data = goalsList.filter((goal) => goal._id === id)[0];
@@ -154,6 +127,7 @@ export default function Scheduler() {
 		}
 		Promise.all(requests)
 			.then((values) => console.log(values))
+			.then(setUpdatedIds([]))
 			.catch((err) => console.log(err));
 	};
 
@@ -425,9 +399,13 @@ export default function Scheduler() {
 					</DragDropContext>
 				)}
 			</div>
-			<button onClick={onSave} className={Style.saveButton}>
-				SAVE
-			</button>
+			<ThemeProvider theme={theme}>
+				<Button variant='outlined' className={Style.saveButtonMUI} onClick={onSave}>
+					SAVE
+				</Button>
+			</ThemeProvider>
+
+			{updatedIds.length > 0 ? <p className={Style.unsavedChanges}>You have unsaved changes</p> : ''}
 		</div>
 	);
 }

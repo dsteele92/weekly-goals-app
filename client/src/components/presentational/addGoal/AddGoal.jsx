@@ -3,13 +3,16 @@ import axios from 'axios';
 import Style from './addGoal.module.scss';
 
 import { FormValidationModal } from 'components';
+import { FormControl, TextField, Select, InputLabel, MenuItem, Button } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../../theme.js';
 
 export default function AddGoal(props) {
 	const [nameInput, setNameInput] = useState('');
 	const [categoryInput, setCategoryInput] = useState('');
 	const [customCategory, setCustomCategory] = useState(false);
 	const [customCategoryInput, setCustomCategoryInput] = useState('');
-	const [timesPerWeek, setTimesPerWeek] = useState(1);
+	const [timesPerWeek, setTimesPerWeek] = useState('');
 	const [formValidationModal, setFormValidationModal] = useState(false);
 
 	/* if "Custom" option is selected from drop down:
@@ -18,6 +21,8 @@ export default function AddGoal(props) {
 	---> check state when adding category to post request:
 	const category = customCategory === true ? customCategoryInput : categoryInput;
 	*/
+
+	const categories = [...props.categories.map((cat) => cat.name), 'Custom'];
 
 	function onCategoryChange(e) {
 		setCategoryInput(e.target.value);
@@ -30,7 +35,7 @@ export default function AddGoal(props) {
 	}
 
 	async function addGoal(e) {
-		e.preventDefault();
+		// e.preventDefault();
 
 		// form validation
 		if (
@@ -74,7 +79,7 @@ export default function AddGoal(props) {
 			Promise.all(requests);
 			setNameInput('');
 			setCategoryInput('--Select--');
-			setTimesPerWeek(1);
+			setTimesPerWeek('');
 			setCustomCategory(false);
 			setCustomCategoryInput('');
 			props.rerenderList();
@@ -86,62 +91,79 @@ export default function AddGoal(props) {
 	return (
 		<div className={Style.addGoal}>
 			<h2 className={Style.header}>Add New Goal</h2>
-			<form className={Style.form}>
-				<div>
-					<label htmlFor='goal'>Goal</label>
-					<input
-						type='text'
-						name='goal'
+			<ThemeProvider theme={theme}>
+				<FormControl fullWidth margin='dense'>
+					{/* <form className={Style.addForm}> */}
+					<TextField
+						margin='dense'
+						color='secondary'
 						id='goal'
-						maxLength='24'
+						variant='outlined'
+						label='Enter Goal'
 						value={nameInput}
 						onChange={(e) => setNameInput(e.target.value)}
+						onKeyPress={(e) => {
+							if (e.key === 'Enter') {
+								addGoal();
+							}
+						}}
 					/>
-				</div>
-				<div>
-					<label htmlFor='category'>Category</label>
-					<select name='category' id='category' value={categoryInput} onChange={onCategoryChange}>
-						<option value=''>--Select--</option>
-						<option value='Fitness'>Fitness</option>
-						<option value='Nutrition'>Nutrition</option>
-						<option value='Mindfulness'>Mindfulness</option>
-						{props.categories
-							.filter((cat) => !cat === 'Fitness' || !cat === 'Nutrition' || !cat === 'Mindfulness')
-							.map((cat, index) => (
-								<option key={index} value={cat}>
-									{cat}
-								</option>
-							))}
-						<option value='Custom'>Custom</option>
-					</select>
-				</div>
-				{customCategory === true ? (
-					<div className={Style.customCategory}>
-						<input
-							type='text'
-							name='category'
+					<FormControl fullWidth margin='dense'>
+						<InputLabel id='category'>Select a Category</InputLabel>
+						<Select
+							color='secondary'
+							labelId='category'
 							id='category'
-							placeholder='Enter Custom Category'
-							maxLength='24'
+							variant='outlined'
+							label='Select a Category'
+							value={categoryInput}
+							onChange={onCategoryChange}>
+							{categories.map((option) => (
+								<MenuItem key={option} value={option}>
+									{option}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+					{customCategory === true ? (
+						<TextField
+							margin='dense'
+							color='secondary'
+							id='category'
+							variant='outlined'
+							label='Enter Custom Category'
 							value={customCategoryInput}
 							onChange={(e) => setCustomCategoryInput(e.target.value)}
+							onKeyPress={(e) => {
+								if (e.key === 'Enter') {
+									addGoal();
+								}
+							}}
 						/>
-					</div>
-				) : (
-					''
-				)}
-				<div>
-					<label htmlFor='times'>Times per week</label>
-					<input
+					) : (
+						''
+					)}
+					<TextField
+						margin='dense'
+						color='secondary'
+						id='timesPerWeek'
+						variant='outlined'
+						label='Times Per Week'
 						type='number'
-						id='times'
-						min='1'
 						value={timesPerWeek}
 						onChange={(e) => setTimesPerWeek(e.target.value)}
+						onKeyPress={(e) => {
+							if (e.key === 'Enter') {
+								addGoal();
+							}
+						}}
 					/>
-				</div>
-				<button onClick={addGoal}>Submit</button>
-			</form>
+				</FormControl>
+				<Button variant='outlined' fullWidth onClick={addGoal}>
+					Submit
+				</Button>
+			</ThemeProvider>
+
 			{formValidationModal ? <FormValidationModal unmount={handleUnmount} /> : ''}
 		</div>
 	);

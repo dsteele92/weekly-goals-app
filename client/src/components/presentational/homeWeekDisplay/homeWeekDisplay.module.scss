@@ -2,22 +2,42 @@
 
 .homeWeekDisplay {
 	padding: 15px;
-	.header {
-		text-transform: capitalize;
-		text-align: left;
-		margin-left: 10px;
-	}
+	.day {
+		@include container;
 
-	.goal1 {
-		border-bottom: 1px solid $theme-color-one;
-	}
-	.goal2 {
-		border-bottom: 1px solid $theme-color-two;
-	}
-	.goal3 {
-		border-bottom: 1px solid $theme-color-three;
-	}
-	.goal0 {
-		border-bottom: 1px solid $theme-color-default;
+		.header {
+			text-transform: capitalize;
+			text-align: left;
+			margin-left: 10px;
+		}
+
+		@mixin goal {
+			display: flex;
+		}
+
+		.goal1 {
+			@include goal();
+			border: 1.5px solid $theme-color-one;
+			border-radius: 5px;
+			padding: 4px 10px;
+		}
+		.goal2 {
+			@include goal();
+			border: 1.5px solid $theme-color-two;
+			border-radius: 5px;
+			padding: 4px 10px;
+		}
+		.goal3 {
+			@include goal();
+			border: 1.5px solid $theme-color-three;
+			border-radius: 5px;
+			padding: 4px 10px;
+		}
+		.goal0 {
+			@include goal();
+			border: 1.5px solid $theme-color-default;
+			border-radius: 5px;
+			padding: 4px 10px;
+		}
 	}
 }

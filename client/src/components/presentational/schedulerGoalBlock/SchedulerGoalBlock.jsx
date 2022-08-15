@@ -7,7 +7,7 @@ export default function SchedulerGoalBlock(props) {
 	return (
 		<div className={Style.calendarBlockContainer}>
 			<div className={Style[`calendarBlock${colorCode}`]}>
-				<span>{props.goal.name}</span>
+				<p className={Style.displayName}>{props.goal.name}</p>
 			</div>
 		</div>
 	);

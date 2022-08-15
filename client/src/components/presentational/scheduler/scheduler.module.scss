@@ -19,7 +19,6 @@
 		display: flex;
 		justify-content: space-evenly;
 		margin: 10px;
-		// padding: 20px;
 
 		.unassignedGoals {
 			min-width: 200px;
@@ -65,5 +64,16 @@
 	}
 	.saveButton {
 		align-self: center;
+	}
+	.saveButtonMUI {
+		margin-top: 10px;
+		align-self: center;
+		width: 100px;
+	}
+	.unsavedChanges {
+		margin-top: 10px;
+		text-align: center;
+		font-style: italic;
+		color: $theme-color-warning;
 	}
 }

@@ -26,34 +26,46 @@
 
 .container {
 	@include container;
-	border-left: 2px solid $theme-color-default;
+	border-bottom: 2px solid $theme-color-default-outline;
 }
 
 .container0 {
 	@include container;
-	border-left: 2px solid $theme-color-default;
+	border-left: 2px solid $theme-color-default-outline;
 	li {
-		border-bottom: 1px solid $theme-color-default;
+		border: 1.5px solid $theme-color-default-outline;
+		// border: 2px solid $theme-color-default;
+		border-radius: 5px;
+		padding: 4px 10px;
 	}
 }
 .container1 {
 	@include container;
 	border-left: 2px solid $theme-color-one;
 	li {
-		border-bottom: 1px solid $theme-color-one;
+		border: 1.5px solid $theme-color-one;
+		// border: 2px solid $theme-color-one;
+		border-radius: 5px;
+		padding: 4px 10px;
 	}
 }
 .container2 {
 	@include container;
 	border-left: 2px solid $theme-color-two;
 	li {
-		border-bottom: 1px solid $theme-color-two;
+		border: 1.5px solid $theme-color-two;
+		// border: 2px solid $theme-color-two;
+		border-radius: 5px;
+		padding: 4px 10px;
 	}
 }
 .container3 {
 	@include container;
 	border-left: 2px solid $theme-color-three;
 	li {
-		border-bottom: 1px solid $theme-color-three;
+		border: 1.5px solid $theme-color-three;
+		// border: 2px solid $theme-color-three;
+		border-radius: 5px;
+		padding: 4px 10px;
 	}
 }

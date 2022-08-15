@@ -20,6 +20,7 @@ export default function EditGoals() {
 			const categoriesRequest = await axios.get('http://localhost:10000/category');
 			const goals = await axios.get('http://localhost:10000/goals');
 			const goalsData = goals.data;
+			console.log(categoriesRequest.data);
 			console.log(goalsData);
 			// only set state if the data has changed
 			if (JSON.stringify(goalsList) !== JSON.stringify(goalsData)) {
@@ -51,7 +52,7 @@ export default function EditGoals() {
 
 	// this will run the axios request on the first render of the ListAllGoals component
 	// getGoals function will be passed through as prop (rerenderList) for AddGoal component
-	if (goalsList.length === 0) {
+	if (goalsList.length === 0 && allCategories.length === 0) {
 		getGoals();
 	}
 
@@ -73,9 +74,6 @@ export default function EditGoals() {
 	if (allCategories.length > 0) {
 		const filtered = allCategories.filter((cat) => currentCategories.includes(cat.name));
 		if (JSON.stringify(filtered) !== JSON.stringify(categories)) {
-			// console.log(currentCategories);
-			// console.log(allCategories);
-			// console.log(filtered);
 			setCategories(filtered);
 		}
 	}

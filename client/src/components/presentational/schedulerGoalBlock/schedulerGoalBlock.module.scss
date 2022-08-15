@@ -1,17 +1,24 @@
 @import 'sass';
 
 .calendarBlockContainer {
-	height: 30px;
+	height: 35px;
 	width: 150px;
 	border: 1px black solid;
-	border-radius: 10px;
+	border-radius: 5px;
 	margin: 10px;
+}
+
+.calendarBlock {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-default-fill;
+	}
 }
 
 .calendarBlock0 {
 	@include calendarBlock;
 	&::after {
-		background-color: $theme-color-default;
+		background-color: $theme-color-default-fill;
 	}
 }
 .calendarBlock1 {
