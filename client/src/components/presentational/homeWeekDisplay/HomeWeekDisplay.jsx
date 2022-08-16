@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './homeWeekDisplay.module.scss';
+import { Modal } from 'components';
 
-import { Checkbox } from '@mui/material';
+import { Checkbox, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
-
-// import { HomeGoalBlock } from 'components';
 
 export default function HomeWeekDisplay() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
+	const [resetConfirmation, setResetConfirmation] = useState(false);
 
 	async function getGoals() {
 		try {
@@ -61,41 +61,92 @@ export default function HomeWeekDisplay() {
 		}
 	}
 
+	async function reset() {
+		let requests = [];
+		goalsList.forEach((goal) => {
+			const request = axios({
+				method: 'put',
+				url: `http://localhost:10000/goals/${goal._id}`,
+				data: { completed: false },
+			});
+			requests.push(request);
+		});
+		await Promise.all(requests);
+		getGoals();
+		setResetConfirmation(false);
+	}
+
 	return (
-		<div className={Style.homeWeekDisplay}>
-			{weekdays.map((day, index) => (
-				<div key={index} className={Style.day}>
-					<ul>
-						<h2 className={Style.header}>{day}</h2>
-						{goalsList
-							.filter((goal) => goal.day === day)
-							.sort((a, b) => a.dayIndex - b.dayIndex)
-							.map((goal, index) => (
-								<li
-									key={index}
-									className={
-										Style[
-											`goal${
-												allCategories.filter(
-													(cat) => cat.name.toLowerCase() === goal.category.toLowerCase()
-												)[0].color
-											}`
-										]
-									}>
-									{goal.name}
-									<ThemeProvider theme={theme}>
-										<Checkbox
-											inputProps={{ 'aria-label': 'Complete? Y/N' }}
-											color='light'
-											onChange={(e) => handleCheckbox(e, goal._id)}
-											checked={goal.completed}
-										/>
-									</ThemeProvider>
-								</li>
-							))}
-					</ul>
+		<div className={Style.page}>
+			{goalsList.length === 0 ? <Modal text='Add new goals to get started!' /> : ''}
+			{resetConfirmation ? (
+				<div className={Style.modalBackground}>
+					<div className={Style.modal}>
+						<h2>Reset all?</h2>
+						<ThemeProvider theme={theme}>
+							<div className={Style.buttons}>
+								<Button
+									className={Style.buttonsMUI}
+									variant='outlined'
+									onClick={() => setResetConfirmation(false)}>
+									Cancel
+								</Button>
+								<Button
+									className={Style.buttonsMUI}
+									variant='contained'
+									color='warning'
+									onClick={reset}>
+									Reset
+								</Button>
+							</div>
+						</ThemeProvider>
+					</div>
 				</div>
-			))}
+			) : (
+				''
+			)}
+			<div className={Style.homeWeekDisplay}>
+				<div className={Style.clearAll}>
+					<ThemeProvider theme={theme}>
+						<Button variant='outlined' size='small' onClick={() => setResetConfirmation(true)}>
+							Reset
+						</Button>
+					</ThemeProvider>
+				</div>
+				{weekdays.map((day, index) => (
+					<div key={index} className={Style.day}>
+						<ul>
+							<h2 className={Style.header}>{day}</h2>
+							{goalsList
+								.filter((goal) => goal.day === day)
+								.sort((a, b) => a.dayIndex - b.dayIndex)
+								.map((goal, index) => (
+									<li
+										key={index}
+										className={
+											Style[
+												`goal${
+													allCategories.filter(
+														(cat) => cat.name.toLowerCase() === goal.category.toLowerCase()
+													)[0].color
+												}`
+											]
+										}>
+										{goal.name}
+										<ThemeProvider theme={theme}>
+											<Checkbox
+												inputProps={{ 'aria-label': 'Complete? Y/N' }}
+												color='light'
+												onChange={(e) => handleCheckbox(e, goal._id)}
+												checked={goal.completed}
+											/>
+										</ThemeProvider>
+									</li>
+								))}
+						</ul>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }

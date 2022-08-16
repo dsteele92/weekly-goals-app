@@ -39,3 +39,33 @@
 		background-color: $theme-color-three;
 	}
 }
+.calendarBlock4 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-four;
+	}
+}
+.calendarBlock5 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-five;
+	}
+}
+.calendarBlock6 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-six;
+	}
+}
+.calendarBlock7 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-seven;
+	}
+}
+.calendarBlock8 {
+	@include calendarBlock;
+	&::after {
+		background-color: $theme-color-eight;
+	}
+}

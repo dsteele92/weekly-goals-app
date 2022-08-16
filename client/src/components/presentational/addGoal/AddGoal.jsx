@@ -118,8 +118,8 @@ export default function AddGoal(props) {
 							label='Select a Category'
 							value={categoryInput}
 							onChange={onCategoryChange}>
-							{categories.map((option) => (
-								<MenuItem key={option} value={option}>
+							{categories.map((option, index) => (
+								<MenuItem key={index} value={option}>
 									{option}
 								</MenuItem>
 							))}

@@ -1,0 +1,76 @@
+@import 'sass';
+
+.colorSelect {
+	padding: 20px;
+	flex-shrink: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	.header {
+		text-align: left;
+		margin-bottom: 10px;
+	}
+
+	.colorList {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 10px;
+
+		@mixin outer {
+			width: 30px;
+			height: 30px;
+			margin: 10px 20px;
+			border-radius: 50%;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+
+		.selected {
+			@include outer();
+			border: 0.5px solid black;
+		}
+		.unselected {
+			@include outer();
+			border: none;
+		}
+
+		@mixin colorOption {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+		}
+		.colorOption1 {
+			@include colorOption();
+			background-color: $theme-color-one;
+		}
+		.colorOption2 {
+			@include colorOption();
+			background-color: $theme-color-two;
+		}
+		.colorOption3 {
+			@include colorOption();
+			background-color: $theme-color-three;
+		}
+		.colorOption4 {
+			@include colorOption();
+			background-color: $theme-color-four;
+		}
+		.colorOption5 {
+			@include colorOption();
+			background-color: $theme-color-five;
+		}
+		.colorOption6 {
+			@include colorOption();
+			background-color: $theme-color-six;
+		}
+		.colorOption7 {
+			@include colorOption();
+			background-color: $theme-color-seven;
+		}
+		.colorOption8 {
+			@include colorOption();
+			background-color: $theme-color-eight;
+		}
+	}
+}

@@ -14,41 +14,117 @@
 		align-items: center;
 	}
 
+	.leftColumn {
+		width: 30%;
+		display: flex;
+		flex-direction: column;
+		padding-left: 10px;
+		// margin-right: 10px;
+		// position: relative;
+	}
+
 	.goalsDisplay {
-		position: relative;
+		// position: relative;
+		width: 70%;
+		// flex-shrink: 1;
+
 		.header {
 			text-transform: capitalize;
 			align-self: flex-start;
 			margin-left: 10px;
 		}
-		width: 100%;
-		flex-shrink: 1;
-		ul {
-			width: 100%;
-			list-style: none;
-			text-align: center;
-			letter-spacing: 1px;
-
+		// --> custom container colors:
+		.container0 {
+			@include container;
+			border-left: 2px solid $theme-color-default-outline;
 			li {
-				// height: 30px;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				margin: 15px;
-
-				.listCount {
-					color: rgb(0, 0, 0);
-					border: 1px solid black;
-					background-color: #ebebeb;
-					border-radius: 50%;
-					box-sizing: border-box;
-					padding: 4px;
-					font-size: 9px;
-					font-weight: 700;
-					vertical-align: middle;
-					margin-left: 5px;
-				}
+				border: 1.5px solid $theme-color-default-outline;
 			}
 		}
+		.container1 {
+			@include container;
+			border-left: 2px solid $theme-color-one;
+			li {
+				border: 1.5px solid $theme-color-one;
+			}
+		}
+		.container2 {
+			@include container;
+			border-left: 2px solid $theme-color-two;
+			li {
+				border: 1.5px solid $theme-color-two;
+			}
+		}
+		.container3 {
+			@include container;
+			border-left: 2px solid $theme-color-three;
+			li {
+				border: 1.5px solid $theme-color-three;
+			}
+		}
+		.container4 {
+			@include container;
+			border-left: 2px solid $theme-color-four;
+			li {
+				border: 1.5px solid $theme-color-four;
+			}
+		}
+		.container5 {
+			@include container;
+			border-left: 2px solid $theme-color-five;
+			li {
+				border: 1.5px solid $theme-color-five;
+			}
+		}
+		.container6 {
+			@include container;
+			border-left: 2px solid $theme-color-six;
+			li {
+				border: 1.5px solid $theme-color-six;
+			}
+		}
+		.container7 {
+			@include container;
+			border-left: 2px solid $theme-color-seven;
+			li {
+				border: 1.5px solid $theme-color-seven;
+			}
+		}
+		.container8 {
+			@include container;
+			border-left: 2px solid $theme-color-eight;
+			li {
+				border: 1.5px solid $theme-color-eight;
+			}
+		}
+		// --> remaining general styling
+		// ul {
+		// 	width: 100%;
+		// 	list-style: none;
+		// 	text-align: center;
+
+		// 	li {
+		// 		letter-spacing: 1.5px;
+		// 		display: flex;
+		// 		align-items: center;
+		// 		justify-content: space-between;
+		// 		margin: 15px;
+		// 		border-radius: 5px;
+		// 		padding: 4px 10px;
+
+		// 		.listCount {
+		// 			color: rgb(0, 0, 0);
+		// 			border: 1px solid black;
+		// 			background-color: #ebebeb;
+		// 			border-radius: 50%;
+		// 			box-sizing: border-box;
+		// 			padding: 4px;
+		// 			font-size: 9px;
+		// 			font-weight: 700;
+		// 			vertical-align: middle;
+		// 			margin-left: 5px;
+		// 		}
+		// 	}
+		// }
 	}
 }

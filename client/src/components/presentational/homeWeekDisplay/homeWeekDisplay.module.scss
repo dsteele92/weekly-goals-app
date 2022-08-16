@@ -1,43 +1,63 @@
 @import 'sass';
 
-.homeWeekDisplay {
-	padding: 15px;
-	.day {
-		@include container;
+.page {
+	display: flex;
+	justify-content: center;
+	// --> buttons for the reset modal:
+	.buttons {
+		margin-top: 10px;
+		.buttonsMUI {
+			margin: 0 5px;
+			width: 80px;
+		}
+	}
+	.homeWeekDisplay {
+		width: 100%;
+		max-width: 800px;
 
-		.header {
-			text-transform: capitalize;
-			text-align: left;
-			margin-left: 10px;
+		padding: 15px;
+		position: relative;
+		.clearAll {
+			position: absolute;
+			top: 25px;
+			right: 5%;
 		}
+		.day {
+			@include container;
 
-		@mixin goal {
-			display: flex;
-		}
+			.header {
+				text-transform: capitalize;
+				text-align: left;
+				margin-left: 10px;
+			}
 
-		.goal1 {
-			@include goal();
-			border: 1.5px solid $theme-color-one;
-			border-radius: 5px;
-			padding: 4px 10px;
-		}
-		.goal2 {
-			@include goal();
-			border: 1.5px solid $theme-color-two;
-			border-radius: 5px;
-			padding: 4px 10px;
-		}
-		.goal3 {
-			@include goal();
-			border: 1.5px solid $theme-color-three;
-			border-radius: 5px;
-			padding: 4px 10px;
-		}
-		.goal0 {
-			@include goal();
-			border: 1.5px solid $theme-color-default;
-			border-radius: 5px;
-			padding: 4px 10px;
+			.goal0 {
+				border: 1.5px solid $theme-color-default;
+			}
+			.goal1 {
+				border: 1.5px solid $theme-color-one;
+			}
+			.goal2 {
+				border: 1.5px solid $theme-color-two;
+			}
+			.goal3 {
+				border: 1.5px solid $theme-color-three;
+			}
+			.goal4 {
+				border: 1.5px solid $theme-color-four;
+			}
+			.goal5 {
+				border: 1.5px solid $theme-color-five;
+			}
+			.goal6 {
+				border: 1.5px solid $theme-color-six;
+			}
+			.goal7 {
+				border: 1.5px solid $theme-color-seven;
+			}
+			.goal8 {
+				border: 1.5px solid $theme-color-eight;
+			}
 		}
 	}
 }

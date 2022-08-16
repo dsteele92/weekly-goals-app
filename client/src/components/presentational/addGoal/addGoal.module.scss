@@ -1,26 +1,15 @@
 @import 'sass';
 
 .addGoal {
-	width: 100%;
-	max-width: 400px;
+	// width: 100%;
+	// max-width: 400px;
 	padding: 20px;
 	flex-shrink: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
 	.header {
 		text-align: left;
-	}
-
-	.customInput {
-		width: 100%;
-		padding: 0 3px;
-	}
-
-	.addForm {
-		height: 180px;
-		display: flex;
-		flex-direction: column;
-		padding: 2px;
-		margin-top: 5px;
-		justify-content: space-between;
 	}
 }

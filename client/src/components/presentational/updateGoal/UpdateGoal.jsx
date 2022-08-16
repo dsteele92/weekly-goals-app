@@ -34,7 +34,7 @@ export default function UpdateGoal(props) {
 			let requests = [];
 			for (let i in idsToUpdate) {
 				const id = idsToUpdate[i];
-				const request = await axios({
+				const request = axios({
 					method: 'put',
 					url: `http://localhost:10000/goals/${id}`,
 					data: data,
@@ -43,7 +43,7 @@ export default function UpdateGoal(props) {
 			}
 			if (customCategory) {
 				if (!props.allCategories.includes(customCategoryInput)) {
-					const categoryUpdate = await axios({
+					const categoryUpdate = axios({
 						method: 'post',
 						url: 'http://localhost:10000/category',
 						data: { name: `${customCategoryInput}`, color: 0 },
@@ -51,7 +51,7 @@ export default function UpdateGoal(props) {
 					requests.push(categoryUpdate);
 				}
 			}
-			Promise.all(requests);
+			await Promise.all(requests);
 			console.log(`GOAL UPDATED`);
 			props.rerenderList();
 			props.unmount();
@@ -70,14 +70,14 @@ export default function UpdateGoal(props) {
 			try {
 				let requests = [];
 				for (let i = 0; i < difference; i++) {
-					const request = await axios({
+					const request = axios({
 						method: 'post',
 						url: 'http://localhost:10000/goals',
 						data: data,
 					});
 					requests.push(request);
 				}
-				Promise.all(requests);
+				await Promise.all(requests);
 				props.rerenderList();
 				props.unmount();
 			} catch (e) {

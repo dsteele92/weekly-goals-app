@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './editGoals.module.scss';
-import { AddGoal, UpdateGoal, DeleteGoal, Modal } from 'components';
+import { AddGoal, UpdateGoal, DeleteGoal, Modal, ColorSelect } from 'components';
 // Material UI -->
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -95,7 +95,10 @@ export default function EditGoals() {
 
 	return (
 		<div className={Style.editGoals}>
-			<AddGoal rerenderList={getGoals} categories={categories} allCategories={allCategories} />
+			<section className={Style.leftColumn}>
+				<AddGoal rerenderList={getGoals} categories={categories} allCategories={allCategories} />
+				<ColorSelect rerenderList={getGoals} categories={categories} />
+			</section>
 			<div className={Style.goalsDisplay}>
 				{goalsDisplay.length === 0 ? <Modal text='Add new goals to get started!' /> : ''}
 				{categories.map((cat, index) => (

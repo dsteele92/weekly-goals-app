@@ -3,69 +3,35 @@
 	margin: 10px auto 10px;
 	max-width: 800px;
 	padding: 5px;
-	// border: 2px black solid;
-	// border-radius: 10px;
 	padding: 10px 10px;
 	box-sizing: border-box;
-	// position: relative;
 	ul {
 		width: 100%;
 		list-style: none;
 		text-align: center;
-		letter-spacing: 1px;
 
 		li {
-			height: 30px;
+			letter-spacing: 1.5px;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			margin: 15px;
+			border-radius: 5px;
+			padding: 4px 10px;
+			height: 45px;
+
+			.listCount {
+				color: rgb(0, 0, 0);
+				border: 1px solid black;
+				background-color: #ebebeb;
+				border-radius: 50%;
+				box-sizing: border-box;
+				padding: 4px;
+				font-size: 9px;
+				font-weight: 700;
+				vertical-align: middle;
+				margin-left: 5px;
+			}
 		}
-	}
-}
-
-.container {
-	@include container;
-	border-bottom: 2px solid $theme-color-default-outline;
-}
-
-.container0 {
-	@include container;
-	border-left: 2px solid $theme-color-default-outline;
-	li {
-		border: 1.5px solid $theme-color-default-outline;
-		// border: 2px solid $theme-color-default;
-		border-radius: 5px;
-		padding: 4px 10px;
-	}
-}
-.container1 {
-	@include container;
-	border-left: 2px solid $theme-color-one;
-	li {
-		border: 1.5px solid $theme-color-one;
-		// border: 2px solid $theme-color-one;
-		border-radius: 5px;
-		padding: 4px 10px;
-	}
-}
-.container2 {
-	@include container;
-	border-left: 2px solid $theme-color-two;
-	li {
-		border: 1.5px solid $theme-color-two;
-		// border: 2px solid $theme-color-two;
-		border-radius: 5px;
-		padding: 4px 10px;
-	}
-}
-.container3 {
-	@include container;
-	border-left: 2px solid $theme-color-three;
-	li {
-		border: 1.5px solid $theme-color-three;
-		// border: 2px solid $theme-color-three;
-		border-radius: 5px;
-		padding: 4px 10px;
 	}
 }
