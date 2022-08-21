@@ -1,6 +1,7 @@
 @import 'sass';
 @mixin listDisplay {
 	ul {
+		min-width: 200px;
 		list-style: none;
 		display: flex;
 		flex-direction: column;
@@ -15,14 +16,13 @@
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
+	// position: relative;
 	.scheduler {
 		display: flex;
 		justify-content: space-evenly;
 		margin: 10px;
 
 		.unassignedGoals {
-			min-width: 200px;
-			margin: none;
 			@include listDisplay();
 			p {
 				margin: 5px;
@@ -46,13 +46,12 @@
 			}
 
 			.day {
-				min-height: 200px;
-				min-width: 200px;
+				@include listDisplay();
+				// min-height: 200px;
 				border-left: 0.5px solid grey;
 				@media only screen and (max-width: 1174px) {
 					border: none;
 				}
-				@include listDisplay();
 			}
 			:last-child.day {
 				border-right: 0.5px solid grey;

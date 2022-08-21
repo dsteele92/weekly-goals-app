@@ -132,280 +132,305 @@ export default function Scheduler() {
 	};
 
 	return (
-		<div className={Style.page}>
-			<div className={Style.scheduler}>
-				{loaded && (
-					<DragDropContext onDragEnd={handleOnDragEnd}>
-						<section className={Style.unassignedGoals}>
-							<div>
-								<Droppable droppableId='unassigned'>
-									{(provided) => (
-										<ul className='unassigned' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Goals</h3>
-											<p>Drag goals to desired day, then click save.</p>
-											{goalsList
-												.filter((goal) => goal.day === 'unassigned')
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-						</section>
-						<section className={Style.week}>
-							<div className={Style.day}>
-								<Droppable droppableId='Monday'>
-									{(provided) => (
-										<ul className='Monday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Monday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Monday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Tuesday'>
-									{(provided) => (
-										<ul className='Tuesday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Tuesday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Tuesday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Wednesday'>
-									{(provided) => (
-										<ul className='Wednesday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Wednesday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Wednesday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Thursday'>
-									{(provided) => (
-										<ul className='Thursday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Thursday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Thursday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Friday'>
-									{(provided) => (
-										<ul className='Friday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Friday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Friday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Saturday'>
-									{(provided) => (
-										<ul className='Saturday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Saturday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Saturday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-							<div className={Style.day}>
-								<Droppable droppableId='Sunday'>
-									{(provided) => (
-										<ul className='Sunday' {...provided.droppableProps} ref={provided.innerRef}>
-											<h3>Sunday</h3>
-											{goalsList
-												.filter((goal) => goal.day === 'Sunday')
-												.sort((a, b) => a.dayIndex - b.dayIndex)
-												.map((goal, index) => (
-													<Draggable key={goal._id} draggableId={goal._id} index={index}>
-														{(provided) => (
-															<li
-																ref={provided.innerRef}
-																{...provided.draggableProps}
-																{...provided.dragHandleProps}>
-																<SchedulerGoalBlock
-																	goal={goal}
-																	category={allCategories.filter(
-																		(cat) =>
-																			cat.name.toLowerCase() ===
-																			goal.category.toLowerCase()
-																	)}
-																/>
-															</li>
-														)}
-													</Draggable>
-												))}
-											{provided.placeholder}
-										</ul>
-									)}
-								</Droppable>
-							</div>
-						</section>
-					</DragDropContext>
-				)}
-			</div>
-			<ThemeProvider theme={theme}>
-				<Button variant='outlined' className={Style.saveButtonMUI} onClick={onSave}>
-					SAVE
-				</Button>
-			</ThemeProvider>
-
-			{updatedIds.length > 0 ? <p className={Style.unsavedChanges}>You have unsaved changes</p> : ''}
+		<div>
+			{goalsList.length === 0 ? (
+				<div className={Style.modalBackground}>
+					<div className={Style.modal}>
+						<h2>Add new goals to get started!</h2>
+					</div>
+				</div>
+			) : (
+				''
+			)}
+			{loaded && (
+				<div className={Style.page}>
+					<div className={Style.scheduler}>
+						<DragDropContext onDragEnd={handleOnDragEnd}>
+							<section className={Style.unassignedGoals}>
+								<div>
+									<Droppable droppableId='unassigned'>
+										{(provided) => (
+											<ul
+												className='unassigned'
+												{...provided.droppableProps}
+												ref={provided.innerRef}>
+												<h3>Goals</h3>
+												<p>Drag goals to desired day, then click save.</p>
+												{goalsList
+													.filter((goal) => goal.day === 'unassigned')
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+							</section>
+							<section className={Style.week}>
+								<div className={Style.day}>
+									<Droppable droppableId='Monday'>
+										{(provided) => (
+											<ul className='Monday' {...provided.droppableProps} ref={provided.innerRef}>
+												<h3>Monday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Monday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Tuesday'>
+										{(provided) => (
+											<ul
+												className='Tuesday'
+												{...provided.droppableProps}
+												ref={provided.innerRef}>
+												<h3>Tuesday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Tuesday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Wednesday'>
+										{(provided) => (
+											<ul
+												className='Wednesday'
+												{...provided.droppableProps}
+												ref={provided.innerRef}>
+												<h3>Wednesday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Wednesday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Thursday'>
+										{(provided) => (
+											<ul
+												className='Thursday'
+												{...provided.droppableProps}
+												ref={provided.innerRef}>
+												<h3>Thursday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Thursday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Friday'>
+										{(provided) => (
+											<ul className='Friday' {...provided.droppableProps} ref={provided.innerRef}>
+												<h3>Friday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Friday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Saturday'>
+										{(provided) => (
+											<ul
+												className='Saturday'
+												{...provided.droppableProps}
+												ref={provided.innerRef}>
+												<h3>Saturday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Saturday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+								<div className={Style.day}>
+									<Droppable droppableId='Sunday'>
+										{(provided) => (
+											<ul className='Sunday' {...provided.droppableProps} ref={provided.innerRef}>
+												<h3>Sunday</h3>
+												{goalsList
+													.filter((goal) => goal.day === 'Sunday')
+													.sort((a, b) => a.dayIndex - b.dayIndex)
+													.map((goal, index) => (
+														<Draggable key={goal._id} draggableId={goal._id} index={index}>
+															{(provided) => (
+																<li
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+																	{...provided.dragHandleProps}>
+																	<SchedulerGoalBlock
+																		goal={goal}
+																		category={allCategories.filter(
+																			(cat) =>
+																				cat.name.toLowerCase() ===
+																				goal.category.toLowerCase()
+																		)}
+																	/>
+																</li>
+															)}
+														</Draggable>
+													))}
+												{provided.placeholder}
+											</ul>
+										)}
+									</Droppable>
+								</div>
+							</section>
+						</DragDropContext>
+					</div>
+					<ThemeProvider theme={theme}>
+						<Button variant='outlined' className={Style.saveButtonMUI} onClick={onSave}>
+							SAVE
+						</Button>
+					</ThemeProvider>
+					{updatedIds.length > 0 ? <p className={Style.unsavedChanges}>You have unsaved changes</p> : ''}
+				</div>
+			)}
 		</div>
 	);
 }

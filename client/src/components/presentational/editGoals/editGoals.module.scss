@@ -24,9 +24,12 @@
 	}
 
 	.goalsDisplay {
-		// position: relative;
+		position: relative;
 		width: 70%;
 		// flex-shrink: 1;
+		.roundedModal {
+			border-radius: 15px;
+		}
 
 		.header {
 			text-transform: capitalize;
@@ -36,9 +39,9 @@
 		// --> custom container colors:
 		.container0 {
 			@include container;
-			border-left: 2px solid $theme-color-default-outline;
+			border-left: 2px solid $theme-color-default;
 			li {
-				border: 1.5px solid $theme-color-default-outline;
+				border: 1.5px solid $theme-color-default;
 			}
 		}
 		.container1 {

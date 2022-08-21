@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './editGoals.module.scss';
-import { AddGoal, UpdateGoal, DeleteGoal, Modal, ColorSelect } from 'components';
+import { AddGoal, UpdateGoal, DeleteGoal, ColorSelect } from 'components';
 // Material UI -->
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -58,19 +58,14 @@ export default function EditGoals() {
 
 	//--> filter allCategories data set for currentCategories
 	let currentCategories = [];
-	for (const goal in goalsList) {
-		const category = goalsList[goal].category;
-		let catExists = false;
-		for (const cat in currentCategories) {
-			if (category.toLowerCase() === currentCategories[cat].toLowerCase()) {
-				catExists = true;
-				break;
-			}
+	goalsList.forEach((goal) => {
+		if (!currentCategories.includes(goal.category)) {
+			console.log(goal.category);
+
+			currentCategories.push(goal.category);
 		}
-		if (!catExists) {
-			currentCategories.push(category);
-		}
-	}
+	});
+
 	if (allCategories.length > 0) {
 		const filtered = allCategories.filter((cat) => currentCategories.includes(cat.name));
 		if (JSON.stringify(filtered) !== JSON.stringify(categories)) {
@@ -100,7 +95,15 @@ export default function EditGoals() {
 				<ColorSelect rerenderList={getGoals} categories={categories} />
 			</section>
 			<div className={Style.goalsDisplay}>
-				{goalsDisplay.length === 0 ? <Modal text='Add new goals to get started!' /> : ''}
+				{goalsDisplay.length === 0 ? (
+					<div className={Style.modalBackgroundRounded}>
+						<div className={Style.modal}>
+							<h2>Add new goals to get started!</h2>
+						</div>
+					</div>
+				) : (
+					''
+				)}
 				{categories.map((cat, index) => (
 					<div key={index} className={Style[`container${cat.color}`]}>
 						<h2 className={Style.header}>{cat.name}</h2>

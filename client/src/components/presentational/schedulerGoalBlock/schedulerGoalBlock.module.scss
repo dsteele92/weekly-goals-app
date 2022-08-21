@@ -11,14 +11,14 @@
 .calendarBlock {
 	@include calendarBlock;
 	&::after {
-		background-color: $theme-color-default-fill;
+		background-color: $theme-color-default;
 	}
 }
 
 .calendarBlock0 {
 	@include calendarBlock;
 	&::after {
-		background-color: $theme-color-default-fill;
+		background-color: $theme-color-default;
 	}
 }
 .calendarBlock1 {

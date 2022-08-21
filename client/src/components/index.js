@@ -9,5 +9,4 @@ export { default as DeleteGoal } from './presentational/deleteGoal/DeleteGoal.js
 export { default as SchedulerGoalBlock } from './presentational/schedulerGoalBlock/SchedulerGoalBlock.jsx';
 export { default as FormValidationModal } from './presentational/formValidationModal/FormValidationModal.jsx';
 export { default as ColorSelect } from './presentational/colorSelect/ColorSelect.jsx';
-//-----
-export { default as Modal } from './generic/modal/Modal.jsx';
+export { default as CircularProgressBar } from './presentational/circularProgressBar/CircularProgressBar.jsx';

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Style from './navbar.module.scss';
 // Material UI:
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { Avatar } from '@mui/material';

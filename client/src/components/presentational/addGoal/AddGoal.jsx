@@ -22,7 +22,11 @@ export default function AddGoal(props) {
 	const category = customCategory === true ? customCategoryInput : categoryInput;
 	*/
 
-	const categories = [...props.categories.map((cat) => cat.name), 'Custom'];
+	const standardCategories = ['Fitness', 'Nutrition', 'Mindfulness'];
+	const customCategoryEntries = props.categories
+		.filter((cat) => !standardCategories.includes(cat.name))
+		.map((cat) => cat.name);
+	const categories = [...standardCategories, ...customCategoryEntries, 'Custom'];
 
 	function onCategoryChange(e) {
 		setCategoryInput(e.target.value);

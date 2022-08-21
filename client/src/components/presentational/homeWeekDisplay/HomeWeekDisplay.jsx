@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './homeWeekDisplay.module.scss';
-import { Modal } from 'components';
+import { CircularProgressBar } from 'components';
 
 import { Checkbox, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,30 +9,48 @@ import theme from '../../../theme.js';
 
 export default function HomeWeekDisplay() {
 	const [goalsList, setGoalsList] = useState([]);
-	const [allCategories, setAllCategories] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const [resetConfirmation, setResetConfirmation] = useState(false);
+
+	let currentCategories = [];
 
 	async function getGoals() {
 		try {
-			const categories = await axios.get('http://localhost:10000/category');
+			const categoryRequest = await axios.get('http://localhost:10000/category');
 			const goals = await axios.get('http://localhost:10000/goals');
-			console.log(goals.data);
-			console.log(categories.data);
+			const goalsData = goals.data;
+			const categoriesData = categoryRequest.data;
+			console.log(goalsData);
+			console.log(categoriesData);
 
-			setAllCategories(categories.data);
-			setGoalsList(goals.data);
+			// --> create an array of the current category names
+			goalsData.forEach((goal) => {
+				if (!currentCategories.includes(goal.category)) {
+					console.log(goal.category);
+
+					currentCategories.push(goal.category);
+				}
+			});
+			console.log(currentCategories);
+			// --> filter all categories for the current ones
+			const filtered = categoriesData.filter((cat) => currentCategories.includes(cat.name));
+
+			setCategories(filtered);
+			setGoalsList(goalsData);
 		} catch (e) {
 			console.log(e);
 		}
 	}
 
 	// this will run the axios request on the first render of the component
-	if (goalsList.length === 0 && allCategories.length === 0) {
+	if (goalsList.length === 0 && categories.length === 0) {
 		getGoals();
 	}
 
-	// this will be used to make sure that all of the data has been loaded
-	// before returning the page content... returning the child components without the data causes an error
+	let loaded = false;
+	if (goalsList.length > 0 && categories.length > 0) {
+		loaded = true;
+	}
 
 	const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -77,8 +95,16 @@ export default function HomeWeekDisplay() {
 	}
 
 	return (
-		<div className={Style.page}>
-			{goalsList.length === 0 ? <Modal text='Add new goals to get started!' /> : ''}
+		<div>
+			{goalsList.length === 0 ? (
+				<div className={Style.modalBackground}>
+					<div className={Style.modal}>
+						<h2>Add new goals to get started!</h2>
+					</div>
+				</div>
+			) : (
+				''
+			)}
 			{resetConfirmation ? (
 				<div className={Style.modalBackground}>
 					<div className={Style.modal}>
@@ -105,48 +131,64 @@ export default function HomeWeekDisplay() {
 			) : (
 				''
 			)}
-			<div className={Style.homeWeekDisplay}>
-				<div className={Style.clearAll}>
-					<ThemeProvider theme={theme}>
-						<Button variant='outlined' size='small' onClick={() => setResetConfirmation(true)}>
-							Reset
-						</Button>
-					</ThemeProvider>
-				</div>
-				{weekdays.map((day, index) => (
-					<div key={index} className={Style.day}>
-						<ul>
-							<h2 className={Style.header}>{day}</h2>
-							{goalsList
-								.filter((goal) => goal.day === day)
-								.sort((a, b) => a.dayIndex - b.dayIndex)
-								.map((goal, index) => (
-									<li
-										key={index}
-										className={
-											Style[
-												`goal${
-													allCategories.filter(
-														(cat) => cat.name.toLowerCase() === goal.category.toLowerCase()
-													)[0].color
-												}`
-											]
-										}>
-										{goal.name}
-										<ThemeProvider theme={theme}>
-											<Checkbox
-												inputProps={{ 'aria-label': 'Complete? Y/N' }}
-												color='light'
-												onChange={(e) => handleCheckbox(e, goal._id)}
-												checked={goal.completed}
-											/>
-										</ThemeProvider>
-									</li>
-								))}
-						</ul>
+			{loaded ? (
+				<div className={Style.page}>
+					<section className={Style.progressSection}>
+						<div>PROGRESS STUFF</div>
+						{currentCategories.map((cat) => (
+							<div key={cat._id}>
+								<CircularProgressBar goals={goalsList.filter((goal) => (goal.category = cat.name))} />
+							</div>
+						))}
+					</section>
+					<div className={Style.homeWeekDisplay}>
+						<div className={Style.clearAll}>
+							<ThemeProvider theme={theme}>
+								<Button variant='outlined' size='small' onClick={() => setResetConfirmation(true)}>
+									Reset
+								</Button>
+							</ThemeProvider>
+						</div>
+						{weekdays.map((day, index) => (
+							<div key={index} className={Style.day}>
+								<ul>
+									<h2 className={Style.header}>{day}</h2>
+									{goalsList
+										.filter((goal) => goal.day === day)
+										.sort((a, b) => a.dayIndex - b.dayIndex)
+										.map((goal, index) => (
+											<li
+												key={index}
+												className={
+													Style[
+														`goal${
+															categories.filter(
+																(cat) =>
+																	cat.name.toLowerCase() ===
+																	goal.category.toLowerCase()
+															)[0].color
+														}`
+													]
+												}>
+												{goal.name}
+												<ThemeProvider theme={theme}>
+													<Checkbox
+														inputProps={{ 'aria-label': 'Complete? Y/N' }}
+														color='light'
+														onChange={(e) => handleCheckbox(e, goal._id)}
+														checked={goal.completed}
+													/>
+												</ThemeProvider>
+											</li>
+										))}
+								</ul>
+							</div>
+						))}
 					</div>
-				))}
-			</div>
+				</div>
+			) : (
+				''
+			)}
 		</div>
 	);
 }
