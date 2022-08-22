@@ -155,7 +155,9 @@ export default function Scheduler() {
 												{...provided.droppableProps}
 												ref={provided.innerRef}>
 												<h3>Goals</h3>
-												<p>Drag goals to desired day, then click save.</p>
+												<p className={Style.instructions}>
+													Drag goals to desired day, then click save.
+												</p>
 												{goalsList
 													.filter((goal) => goal.day === 'unassigned')
 													.map((goal, index) => (

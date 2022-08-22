@@ -1,1 +1,100 @@
 @import 'sass';
+
+.progressContainer {
+	display: flex;
+	// width: 210px;
+	// padding: 20px;
+	border-radius: 8px;
+	// background: #bbb;
+	// border: 1px solid $theme-color-one;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px;
+
+	@mixin circularProgress {
+		position: relative;
+		height: 125px;
+		width: 125px;
+		border-radius: 50%;
+		background: conic-gradient(#dbdbdb 0deg, #ededed 0deg);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&::before {
+			content: '';
+			position: absolute;
+			height: 105px;
+			width: 105px;
+			border-radius: 50%;
+			background-color: #fff;
+		}
+
+		.progressValue {
+			position: relative;
+			font-size: 25px;
+			font-weight: 600;
+		}
+	}
+
+	.circularProgress0 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-default;
+		}
+	}
+	.circularProgress1 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-one;
+		}
+	}
+	.circularProgress2 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-two;
+		}
+	}
+	.circularProgress3 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-three;
+		}
+	}
+	.circularProgress4 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-four;
+		}
+	}
+	.circularProgress5 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-five;
+		}
+	}
+	.circularProgress6 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-six;
+		}
+	}
+	.circularProgress7 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-seven;
+		}
+	}
+	.circularProgress8 {
+		@include circularProgress;
+		.progressValue {
+			color: $theme-color-eight;
+		}
+	}
+
+	.text {
+		font-size: 15px;
+		font-weight: 500;
+		color: black;
+		margin-top: 10px;
+	}
+}

@@ -24,7 +24,7 @@
 
 		.unassignedGoals {
 			@include listDisplay();
-			p {
+			.instructions {
 				margin: 5px;
 				font-style: italic;
 				font-size: small;
@@ -47,7 +47,7 @@
 
 			.day {
 				@include listDisplay();
-				// min-height: 200px;
+				min-height: 200px;
 				border-left: 0.5px solid grey;
 				@media only screen and (max-width: 1174px) {
 					border: none;

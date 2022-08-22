@@ -15,10 +15,15 @@
 		max-width: 400px;
 		text-align: center;
 		padding: 15px;
-		// border: 1px solid black;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0 15px;
+		.progressHeader {
+			margin: 15px 0;
+		}
 	}
 	.homeWeekDisplay {
-		// border: 1px solid black;
 		width: 80%;
 		max-width: 800px;
 

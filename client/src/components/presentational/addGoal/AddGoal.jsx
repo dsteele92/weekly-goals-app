@@ -97,7 +97,6 @@ export default function AddGoal(props) {
 			<h2 className={Style.header}>Add New Goal</h2>
 			<ThemeProvider theme={theme}>
 				<FormControl fullWidth margin='dense'>
-					{/* <form className={Style.addForm}> */}
 					<TextField
 						margin='dense'
 						color='secondary'

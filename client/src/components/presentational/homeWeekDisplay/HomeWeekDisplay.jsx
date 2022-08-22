@@ -67,9 +67,7 @@ export default function HomeWeekDisplay() {
 			const updated = arrayCopy.map((goal) => {
 				if (goal._id === id) {
 					let copy = JSON.parse(JSON.stringify(goal));
-					console.log(copy);
 					copy.completed = checked;
-					console.log(copy);
 					return copy;
 				} else {
 					return goal;
@@ -134,14 +132,17 @@ export default function HomeWeekDisplay() {
 			{loaded ? (
 				<div className={Style.page}>
 					<section className={Style.progressSection}>
-						<div>PROGRESS STUFF</div>
-						{currentCategories.map((cat) => (
+						<h2 className={Style.progressHeader}>Weekly Progress</h2>
+						{categories.map((cat) => (
 							<div key={cat._id}>
-								<CircularProgressBar goals={goalsList.filter((goal) => (goal.category = cat.name))} />
+								<CircularProgressBar
+									goals={goalsList.filter((goal) => goal.category === cat.name)}
+									category={cat}
+								/>
 							</div>
 						))}
 					</section>
-					<div className={Style.homeWeekDisplay}>
+					<section className={Style.homeWeekDisplay}>
 						<div className={Style.clearAll}>
 							<ThemeProvider theme={theme}>
 								<Button variant='outlined' size='small' onClick={() => setResetConfirmation(true)}>
@@ -184,7 +185,7 @@ export default function HomeWeekDisplay() {
 								</ul>
 							</div>
 						))}
-					</div>
+					</section>
 				</div>
 			) : (
 				''
