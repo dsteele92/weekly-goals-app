@@ -9,6 +9,12 @@
 	background-position-y: 80%;
 	background-size: cover;
 
+	@media screen and (max-width: $breakpoint-mobile) {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+	}
+
 	.Overlay {
 		@include flex-row-5;
 		width: 100%;
