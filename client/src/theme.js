@@ -7,11 +7,11 @@ const theme = createTheme({
 			main: '#6c6c6c',
 		},
 		light: {
-			main: '#cacaca',
+			main: '#ababab',
 		},
 
 		secondary: {
-			main: '#9FBCE7',
+			main: '#5c8fdb',
 		},
 		warning: {
 			main: '#d64a1f',

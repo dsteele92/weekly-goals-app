@@ -19,7 +19,6 @@
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	color: grey;
-	// text-shadow: 0.5px 0.5px 0.5px rgb(0, 0, 0);
 
 	&:hover {
 		background-color: darken($color: rgb(255, 255, 255), $amount: 5%);

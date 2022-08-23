@@ -9,24 +9,39 @@
 	display: flex;
 	justify-content: center;
 
-	@media only screen and (max-width: 700px) {
+	@media screen and (max-width: $breakpoint-tablet) {
 		flex-direction: column;
 		align-items: center;
 	}
 
 	.leftColumn {
-		width: 30%;
+		width: 360px;
+		// flex-shrink: 0;
 		display: flex;
 		flex-direction: column;
-		padding-left: 10px;
-		// margin-right: 10px;
-		// position: relative;
+		align-items: center;
+
+		@media screen and (max-width: $breakpoint-tablet) {
+			width: 100%;
+			flex-direction: row;
+			align-items: flex-start;
+		}
+
+		@media screen and (max-width: 600px) {
+			width: 100%;
+			flex-direction: column;
+		}
 	}
 
 	.goalsDisplay {
 		position: relative;
+		flex-shrink: 2;
 		width: 70%;
-		// flex-shrink: 1;
+
+		@media screen and (max-width: $breakpoint-tablet) {
+			width: 90%;
+		}
+
 		.roundedModal {
 			border-radius: 15px;
 		}
@@ -37,97 +52,76 @@
 			margin-left: 10px;
 		}
 		// --> custom container colors:
-		.container0 {
+		.container {
 			@include container;
-			border-left: 2px solid $theme-color-default;
-			li {
-				border: 1.5px solid $theme-color-default;
+			.icons {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			&0 {
+				@extend .container;
+				border-left: 2px solid $theme-color-default;
+				li {
+					border: 1.5px solid $theme-color-default;
+				}
+			}
+			&1 {
+				@extend .container;
+				border-left: 2px solid $theme-color-one;
+				li {
+					border: 1.5px solid $theme-color-one;
+				}
+			}
+			&2 {
+				@extend .container;
+				border-left: 2px solid $theme-color-two;
+				li {
+					border: 1.5px solid $theme-color-two;
+				}
+			}
+			&3 {
+				@extend .container;
+				border-left: 2px solid $theme-color-three;
+				li {
+					border: 1.5px solid $theme-color-three;
+				}
+			}
+			&4 {
+				@extend .container;
+				border-left: 2px solid $theme-color-four;
+				li {
+					border: 1.5px solid $theme-color-four;
+				}
+			}
+			&5 {
+				@extend .container;
+				border-left: 2px solid $theme-color-five;
+				li {
+					border: 1.5px solid $theme-color-five;
+				}
+			}
+			&6 {
+				@extend .container;
+				border-left: 2px solid $theme-color-six;
+				li {
+					border: 1.5px solid $theme-color-six;
+				}
+			}
+			&7 {
+				@extend .container;
+				border-left: 2px solid $theme-color-seven;
+				li {
+					border: 1.5px solid $theme-color-seven;
+				}
+			}
+			&8 {
+				@extend .container;
+				border-left: 2px solid $theme-color-eight;
+				li {
+					border: 1.5px solid $theme-color-eight;
+				}
 			}
 		}
-		.container1 {
-			@include container;
-			border-left: 2px solid $theme-color-one;
-			li {
-				border: 1.5px solid $theme-color-one;
-			}
-		}
-		.container2 {
-			@include container;
-			border-left: 2px solid $theme-color-two;
-			li {
-				border: 1.5px solid $theme-color-two;
-			}
-		}
-		.container3 {
-			@include container;
-			border-left: 2px solid $theme-color-three;
-			li {
-				border: 1.5px solid $theme-color-three;
-			}
-		}
-		.container4 {
-			@include container;
-			border-left: 2px solid $theme-color-four;
-			li {
-				border: 1.5px solid $theme-color-four;
-			}
-		}
-		.container5 {
-			@include container;
-			border-left: 2px solid $theme-color-five;
-			li {
-				border: 1.5px solid $theme-color-five;
-			}
-		}
-		.container6 {
-			@include container;
-			border-left: 2px solid $theme-color-six;
-			li {
-				border: 1.5px solid $theme-color-six;
-			}
-		}
-		.container7 {
-			@include container;
-			border-left: 2px solid $theme-color-seven;
-			li {
-				border: 1.5px solid $theme-color-seven;
-			}
-		}
-		.container8 {
-			@include container;
-			border-left: 2px solid $theme-color-eight;
-			li {
-				border: 1.5px solid $theme-color-eight;
-			}
-		}
-		// --> remaining general styling
-		// ul {
-		// 	width: 100%;
-		// 	list-style: none;
-		// 	text-align: center;
-
-		// 	li {
-		// 		letter-spacing: 1.5px;
-		// 		display: flex;
-		// 		align-items: center;
-		// 		justify-content: space-between;
-		// 		margin: 15px;
-		// 		border-radius: 5px;
-		// 		padding: 4px 10px;
-
-		// 		.listCount {
-		// 			color: rgb(0, 0, 0);
-		// 			border: 1px solid black;
-		// 			background-color: #ebebeb;
-		// 			border-radius: 50%;
-		// 			box-sizing: border-box;
-		// 			padding: 4px;
-		// 			font-size: 9px;
-		// 			font-weight: 700;
-		// 			vertical-align: middle;
-		// 			margin-left: 5px;
-		// 		}
-		// 	}
-		// }
 	}
 }

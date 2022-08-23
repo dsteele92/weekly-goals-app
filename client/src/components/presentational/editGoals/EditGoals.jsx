@@ -43,8 +43,8 @@ export default function EditGoals() {
 					consolidatedData.push(li);
 				}
 			}
-			setGoalsDisplay(consolidatedData);
 			setAllCategories(categoriesRequest.data);
+			setGoalsDisplay(consolidatedData);
 		} catch (e) {
 			console.log(e);
 		}
@@ -120,9 +120,16 @@ export default function EditGoals() {
 												''
 											)}
 										</div>
-										<span>
-											<EditOutlinedIcon fontSize='small' onClick={() => editClick(goal)} />
-											<DeleteOutlinedIcon fontSize='small' onClick={() => deleteClick(goal)} />
+										<span className={Style.icons}>
+											<div>
+												<EditOutlinedIcon fontSize='small' onClick={() => editClick(goal)} />
+											</div>
+											<div>
+												<DeleteOutlinedIcon
+													fontSize='small'
+													onClick={() => deleteClick(goal)}
+												/>
+											</div>
 										</span>
 									</li>
 								))}

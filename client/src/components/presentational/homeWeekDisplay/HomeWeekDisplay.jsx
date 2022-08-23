@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Style from './homeWeekDisplay.module.scss';
 import { CircularProgressBar } from 'components';
 
@@ -11,6 +12,7 @@ export default function HomeWeekDisplay() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [resetConfirmation, setResetConfirmation] = useState(false);
+	const [unscheduledGoals, setUnscheduledGoals] = useState(false);
 
 	let currentCategories = [];
 
@@ -35,8 +37,24 @@ export default function HomeWeekDisplay() {
 			// --> filter all categories for the current ones
 			const filtered = categoriesData.filter((cat) => currentCategories.includes(cat.name));
 
-			setCategories(filtered);
+			if (currentCategories.length > 0) {
+				// this is so the getGoals function wont run twice
+				setCategories(filtered);
+			} else {
+				setCategories(['loaded']);
+			}
 			setGoalsList(goalsData);
+
+			goalsData.every((goal) => {
+				if (goal.day === 'unassigned') {
+					setUnscheduledGoals(true);
+					console.log(unscheduledGoals);
+					console.log(goal);
+					return false;
+				} else {
+					return true;
+				}
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -88,26 +106,50 @@ export default function HomeWeekDisplay() {
 			requests.push(request);
 		});
 		await Promise.all(requests);
-		getGoals();
 		setResetConfirmation(false);
+		getGoals();
 	}
 
 	return (
 		<div>
-			{goalsList.length === 0 ? (
-				<div className={Style.modalBackground}>
-					<div className={Style.modal}>
-						<h2>Add new goals to get started!</h2>
+			<ThemeProvider theme={theme}>
+				{goalsList.length === 0 ? (
+					<div className={Style.modalBackground}>
+						<div className={Style.modal}>
+							<h2>Add new goals to get started!</h2>
+							<div className={Style.buttons}>
+								<Link to='/edit'>
+									<Button variant='outlined' color='secondary'>
+										Edit Goals
+									</Button>
+								</Link>
+							</div>
+						</div>
 					</div>
-				</div>
-			) : (
-				''
-			)}
-			{resetConfirmation ? (
-				<div className={Style.modalBackground}>
-					<div className={Style.modal}>
-						<h2>Reset all?</h2>
-						<ThemeProvider theme={theme}>
+				) : (
+					''
+				)}
+				{unscheduledGoals && goalsList.length > 0 ? (
+					<div className={Style.modalBackground}>
+						<div className={Style.modal}>
+							<h2>You have unscheduled goals</h2>
+							<h4>Assign your goals to days to begin</h4>
+							<div className={Style.buttons}>
+								<Link to='/schedule'>
+									<Button variant='outlined' color='secondary'>
+										Schedule
+									</Button>
+								</Link>
+							</div>
+						</div>
+					</div>
+				) : (
+					''
+				)}
+				{resetConfirmation ? (
+					<div className={Style.modalBackground}>
+						<div className={Style.modal}>
+							<h2>Reset all?</h2>
 							<div className={Style.buttons}>
 								<Button
 									className={Style.buttonsMUI}
@@ -123,73 +165,71 @@ export default function HomeWeekDisplay() {
 									Reset
 								</Button>
 							</div>
-						</ThemeProvider>
+						</div>
 					</div>
-				</div>
-			) : (
-				''
-			)}
-			{loaded ? (
-				<div className={Style.page}>
-					<section className={Style.progressSection}>
-						<h2 className={Style.progressHeader}>Weekly Progress</h2>
-						{categories.map((cat) => (
-							<div key={cat._id}>
-								<CircularProgressBar
-									goals={goalsList.filter((goal) => goal.category === cat.name)}
-									category={cat}
-								/>
+				) : (
+					''
+				)}
+				{loaded ? (
+					<div className={Style.page}>
+						<section className={Style.progressSection}>
+							<h2 className={Style.progressHeader}>Weekly Progress</h2>
+							<div className={Style.progressBars}>
+								{categories.map((cat) => (
+									<div key={cat._id}>
+										<CircularProgressBar
+											goals={goalsList.filter((goal) => goal.category === cat.name)}
+											category={cat}
+										/>
+									</div>
+								))}
 							</div>
-						))}
-					</section>
-					<section className={Style.homeWeekDisplay}>
-						<div className={Style.clearAll}>
-							<ThemeProvider theme={theme}>
+						</section>
+						<section className={Style.homeWeekDisplay}>
+							<div className={Style.clearAll}>
 								<Button variant='outlined' size='small' onClick={() => setResetConfirmation(true)}>
 									Reset
 								</Button>
-							</ThemeProvider>
-						</div>
-						{weekdays.map((day, index) => (
-							<div key={index} className={Style.day}>
-								<ul>
-									<h2 className={Style.header}>{day}</h2>
-									{goalsList
-										.filter((goal) => goal.day === day)
-										.sort((a, b) => a.dayIndex - b.dayIndex)
-										.map((goal, index) => (
-											<li
-												key={index}
-												className={
-													Style[
-														`goal${
-															categories.filter(
-																(cat) =>
-																	cat.name.toLowerCase() ===
-																	goal.category.toLowerCase()
-															)[0].color
-														}`
-													]
-												}>
-												{goal.name}
-												<ThemeProvider theme={theme}>
+							</div>
+							{weekdays.map((day, index) => (
+								<div key={index} className={Style.day}>
+									<ul>
+										<h2 className={Style.header}>{day}</h2>
+										{goalsList
+											.filter((goal) => goal.day === day)
+											.sort((a, b) => a.dayIndex - b.dayIndex)
+											.map((goal, index) => (
+												<li
+													key={index}
+													className={
+														Style[
+															`goal${
+																categories.filter(
+																	(cat) =>
+																		cat.name.toLowerCase() ===
+																		goal.category.toLowerCase()
+																)[0].color
+															}`
+														]
+													}>
+													{goal.name}
 													<Checkbox
 														inputProps={{ 'aria-label': 'Complete? Y/N' }}
 														color='light'
 														onChange={(e) => handleCheckbox(e, goal._id)}
 														checked={goal.completed}
 													/>
-												</ThemeProvider>
-											</li>
-										))}
-								</ul>
-							</div>
-						))}
-					</section>
-				</div>
-			) : (
-				''
-			)}
+												</li>
+											))}
+									</ul>
+								</div>
+							))}
+						</section>
+					</div>
+				) : (
+					''
+				)}
+			</ThemeProvider>
 		</div>
 	);
 }

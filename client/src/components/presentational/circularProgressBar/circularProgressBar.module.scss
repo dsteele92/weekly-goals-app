@@ -11,7 +11,7 @@
 	align-items: center;
 	margin: 10px;
 
-	@mixin circularProgress {
+	.circularProgress {
 		position: relative;
 		height: 125px;
 		width: 125px;
@@ -34,60 +34,60 @@
 			font-size: 25px;
 			font-weight: 600;
 		}
-	}
 
-	.circularProgress0 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-default;
+		&0 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-default, $amount: 5);
+			}
 		}
-	}
-	.circularProgress1 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-one;
+		&1 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-one, $amount: 5);
+			}
 		}
-	}
-	.circularProgress2 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-two;
+		&2 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-two, $amount: 5);
+			}
 		}
-	}
-	.circularProgress3 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-three;
+		&3 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-three, $amount: 5);
+			}
 		}
-	}
-	.circularProgress4 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-four;
+		&4 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-four, $amount: 5);
+			}
 		}
-	}
-	.circularProgress5 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-five;
+		&5 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-five, $amount: 5);
+			}
 		}
-	}
-	.circularProgress6 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-six;
+		&6 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-six, $amount: 5);
+			}
 		}
-	}
-	.circularProgress7 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-seven;
+		&7 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-seven, $amount: 5);
+			}
 		}
-	}
-	.circularProgress8 {
-		@include circularProgress;
-		.progressValue {
-			color: $theme-color-eight;
+		&8 {
+			@extend .circularProgress;
+			.progressValue {
+				color: darken($color: $theme-color-eight, $amount: 5);
+			}
 		}
 	}
 
@@ -95,6 +95,6 @@
 		font-size: 15px;
 		font-weight: 500;
 		color: black;
-		margin-top: 10px;
+		margin-top: 5px;
 	}
 }

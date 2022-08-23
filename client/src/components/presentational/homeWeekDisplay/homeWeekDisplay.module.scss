@@ -1,34 +1,68 @@
 @import 'sass';
 
+// --> buttons for the reset modal:
+.buttons {
+	margin-top: 10px;
+	a {
+		text-decoration: none;
+	}
+	.buttonsMUI {
+		width: 80px;
+		margin: 0 5px;
+	}
+}
+
 .page {
 	display: flex;
 	justify-content: center;
-	// --> buttons for the reset modal:
-	.buttons {
-		margin-top: 10px;
-		.buttonsMUI {
-			width: 80px;
-		}
+
+	@media screen and (max-width: $breakpoint-tablet) {
+		flex-direction: column-reverse;
+		align-items: center;
 	}
+
 	.progressSection {
 		width: 20%;
-		max-width: 400px;
+		// max-width: 400px;
 		text-align: center;
 		padding: 15px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
 		margin: 0 15px;
+
+		@media screen and (max-width: $breakpoint-tablet) {
+			width: 100%;
+			padding-top: 0;
+		}
+
 		.progressHeader {
 			margin: 15px 0;
+			@media screen and (max-width: $breakpoint-tablet) {
+				margin-top: 0;
+			}
+		}
+
+		.progressBars {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			@media screen and (max-width: $breakpoint-tablet) {
+				// width: 100%;
+				flex-direction: row;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
 		}
 	}
 	.homeWeekDisplay {
 		width: 80%;
 		max-width: 800px;
-
 		padding: 15px;
 		position: relative;
+
+		@media screen and (max-width: $breakpoint-tablet) {
+			width: 100%;
+		}
+
 		.clearAll {
 			position: absolute;
 			top: 25px;
@@ -45,30 +79,39 @@
 
 			.goal0 {
 				border: 1.5px solid $theme-color-default;
+				background-color: rgba($color: $theme-color-default, $alpha: 0.2);
 			}
 			.goal1 {
 				border: 1.5px solid $theme-color-one;
+				background-color: rgba($color: $theme-color-one, $alpha: 0.2);
 			}
 			.goal2 {
 				border: 1.5px solid $theme-color-two;
+				background-color: rgba($color: $theme-color-two, $alpha: 0.2);
 			}
 			.goal3 {
 				border: 1.5px solid $theme-color-three;
+				background-color: rgba($color: $theme-color-three, $alpha: 0.2);
 			}
 			.goal4 {
 				border: 1.5px solid $theme-color-four;
+				background-color: rgba($color: $theme-color-four, $alpha: 0.2);
 			}
 			.goal5 {
 				border: 1.5px solid $theme-color-five;
+				background-color: rgba($color: $theme-color-five, $alpha: 0.2);
 			}
 			.goal6 {
 				border: 1.5px solid $theme-color-six;
+				background-color: rgba($color: $theme-color-six, $alpha: 0.2);
 			}
 			.goal7 {
 				border: 1.5px solid $theme-color-seven;
+				background-color: rgba($color: $theme-color-seven, $alpha: 0.2);
 			}
 			.goal8 {
 				border: 1.5px solid $theme-color-eight;
+				background-color: rgba($color: $theme-color-eight, $alpha: 0.2);
 			}
 		}
 	}

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import Style from './circularProgressBar.module.scss';
 
 export default function CircularProgressBar(props) {

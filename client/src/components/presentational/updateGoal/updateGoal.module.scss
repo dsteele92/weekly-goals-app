@@ -1,9 +1,5 @@
 @import 'sass';
 
-.updateH2 {
-	// margin: 5px;
-}
-
 .exitButton {
 	position: absolute;
 	top: 5px;
@@ -25,6 +21,8 @@
 	text-align: center;
 	.deletingGoalsList {
 		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
 		.deletingGoalsItem {
 			display: flex;
 			flex-direction: column;

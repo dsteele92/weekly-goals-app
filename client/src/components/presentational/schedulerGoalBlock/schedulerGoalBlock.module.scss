@@ -1,71 +1,107 @@
 @import 'sass';
 
+@mixin calendarBlock {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 5px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&::after {
+		content: '';
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		position: absolute;
+		border-radius: 5px;
+		top: 3px;
+		left: 3px;
+		transition: 0.2s;
+	}
+
+	&:hover::after {
+		top: 0px;
+		left: 0px;
+	}
+
+	&:active::after {
+		top: 0px;
+		left: 0px;
+	}
+}
+
 .calendarBlockContainer {
 	height: 35px;
 	width: 150px;
 	border: 1px black solid;
 	border-radius: 5px;
 	margin: 10px;
+	font-size: 80%;
 }
 
 .calendarBlock {
 	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-default;
+	.displayName {
+		letter-spacing: 1pt;
+		font-weight: 400;
+		text-align: center;
 	}
-}
-
-.calendarBlock0 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-default;
+	&0 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-default;
+		}
 	}
-}
-.calendarBlock1 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-one;
+	&1 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-one;
+		}
 	}
-}
-.calendarBlock2 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-two;
+	&2 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-two;
+		}
 	}
-}
-.calendarBlock3 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-three;
+	&3 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-three;
+		}
 	}
-}
-.calendarBlock4 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-four;
+	&4 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-four;
+		}
 	}
-}
-.calendarBlock5 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-five;
+	&5 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-five;
+		}
 	}
-}
-.calendarBlock6 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-six;
+	&6 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-six;
+		}
 	}
-}
-.calendarBlock7 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-seven;
+	&7 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-seven;
+		}
 	}
-}
-.calendarBlock8 {
-	@include calendarBlock;
-	&::after {
-		background-color: $theme-color-eight;
+	&8 {
+		@extend .calendarBlock;
+		&::after {
+			background-color: $theme-color-eight;
+		}
 	}
 }

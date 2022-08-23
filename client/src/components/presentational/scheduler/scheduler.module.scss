@@ -1,7 +1,7 @@
 @import 'sass';
 @mixin listDisplay {
 	ul {
-		min-width: 200px;
+		min-width: 185px;
 		list-style: none;
 		display: flex;
 		flex-direction: column;
@@ -12,18 +12,32 @@
 	}
 }
 
+.buttons {
+	margin-top: 10px;
+	a {
+		text-decoration: none;
+	}
+}
+
 .page {
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
-	// position: relative;
+	position: relative;
 	.scheduler {
 		display: flex;
-		justify-content: space-evenly;
+		justify-content: center;
 		margin: 10px;
+
+		@media screen and (max-width: $breakpoint-mobile) {
+			flex-direction: column;
+			align-items: center;
+		}
 
 		.unassignedGoals {
 			@include listDisplay();
+			margin: 0 20px;
+			width: fit-content;
 			.instructions {
 				margin: 5px;
 				font-style: italic;
@@ -31,40 +45,40 @@
 				text-align: center;
 				width: 80%;
 			}
+
+			@media screen and (max-width: $breakpoint-tablet) {
+				margin-bottom: 15px;
+			}
 		}
 
 		.week {
 			display: flex;
-			justify-content: flex-start;
+			justify-content: center;
+			height: fit-content;
+			width: fit-content;
 			flex-direction: row;
-
-			@media only screen and (max-width: 1174px) {
-				flex-direction: column;
-			}
-			@media only screen and (max-width: 1750px) {
-				flex-wrap: wrap;
-			}
+			flex-wrap: wrap;
+			margin: 0 10px;
 
 			.day {
 				@include listDisplay();
+				border: 1px solid #ababab;
+				border-radius: 8px;
+				margin: 5px;
 				min-height: 200px;
-				border-left: 0.5px solid grey;
-				@media only screen and (max-width: 1174px) {
-					border: none;
-				}
+				padding: 5px;
 			}
-			:last-child.day {
-				border-right: 0.5px solid grey;
-				@media only screen and (max-width: 1174px) {
-					border: none;
+
+			.dayUnsaved {
+				@extend .day;
+				@media screen and (max-width: $breakpoint-mobile) {
+					border-color: #d15454;
 				}
 			}
 		}
 	}
+
 	.saveButton {
-		align-self: center;
-	}
-	.saveButtonMUI {
 		margin-top: 10px;
 		align-self: center;
 		width: 100px;
