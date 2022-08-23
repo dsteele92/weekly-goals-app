@@ -53,55 +53,55 @@
 	&0 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-default;
+			background-color: rgba($color: $theme-color-default, $alpha: 0.4);
 		}
 	}
 	&1 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-one;
+			background-color: rgba($color: $theme-color-one, $alpha: 0.4);
 		}
 	}
 	&2 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-two;
+			background-color: rgba($color: $theme-color-two, $alpha: 0.4);
 		}
 	}
 	&3 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-three;
+			background-color: rgba($color: $theme-color-three, $alpha: 0.4);
 		}
 	}
 	&4 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-four;
+			background-color: rgba($color: $theme-color-four, $alpha: 0.4);
 		}
 	}
 	&5 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-five;
+			background-color: rgba($color: $theme-color-five, $alpha: 0.4);
 		}
 	}
 	&6 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-six;
+			background-color: rgba($color: $theme-color-six, $alpha: 0.4);
 		}
 	}
 	&7 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-seven;
+			background-color: rgba($color: $theme-color-seven, $alpha: 0.4);
 		}
 	}
 	&8 {
 		@extend .calendarBlock;
 		&::after {
-			background-color: $theme-color-eight;
+			background-color: rgba($color: $theme-color-eight, $alpha: 0.4);
 		}
 	}
 }
