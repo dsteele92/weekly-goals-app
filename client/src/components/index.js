@@ -10,3 +10,4 @@ export { default as SchedulerGoalBlock } from './presentational/schedulerGoalBlo
 export { default as FormValidationModal } from './presentational/formValidationModal/FormValidationModal.jsx';
 export { default as ColorSelect } from './presentational/colorSelect/ColorSelect.jsx';
 export { default as CircularProgressBar } from './presentational/circularProgressBar/CircularProgressBar.jsx';
+export { default as LoadingDots } from './generic/LoadingDots/LoadingDots.jsx';

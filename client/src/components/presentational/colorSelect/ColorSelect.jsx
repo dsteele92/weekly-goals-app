@@ -4,6 +4,7 @@ import Style from './colorSelect.module.scss';
 import { FormControl, Select, InputLabel, MenuItem, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
+import * as backend from '../../../backendURL.js';
 
 export default function ColorSelect(props) {
 	const [categoryInput, setCategoryInput] = useState('');
@@ -13,7 +14,7 @@ export default function ColorSelect(props) {
 		if (selectedColor === 0) return;
 		const request = await axios({
 			method: 'put',
-			url: `http://localhost:10000/category/${categoryInput}`,
+			url: `${backend.url}/category/${categoryInput}`,
 			data: { color: selectedColor },
 		});
 		console.log(request);

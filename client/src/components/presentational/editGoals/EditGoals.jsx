@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './editGoals.module.scss';
-import { AddGoal, UpdateGoal, DeleteGoal, ColorSelect } from 'components';
+import { AddGoal, UpdateGoal, DeleteGoal, ColorSelect, LoadingDots } from 'components';
 // Material UI -->
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import * as backend from '../../../backendURL.js';
 
 export default function EditGoals() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [goalsDisplay, setGoalsDisplay] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [dataLoaded, setDataLoaded] = useState(false);
 
 	const [editGoal, setEditGoal] = useState(false);
 	const [deleteGoal, setDeleteGoal] = useState(false);
 
 	async function getGoals() {
 		try {
-			const categoriesRequest = await axios.get('http://localhost:10000/category');
-			const goals = await axios.get('http://localhost:10000/goals');
+			const categoriesRequest = await axios.get(`${backend.url}/category`);
+			const goals = await axios.get(`${backend.url}/goals`);
 			const goalsData = goals.data;
 			console.log(categoriesRequest.data);
 			console.log(goalsData);
@@ -45,6 +47,7 @@ export default function EditGoals() {
 			}
 			setAllCategories(categoriesRequest.data);
 			setGoalsDisplay(consolidatedData);
+			setDataLoaded(true);
 		} catch (e) {
 			console.log(e);
 		}
@@ -95,7 +98,16 @@ export default function EditGoals() {
 				<ColorSelect rerenderList={getGoals} categories={categories} />
 			</section>
 			<div className={Style.goalsDisplay}>
-				{goalsDisplay.length === 0 ? (
+				{!dataLoaded ? (
+					<div className={Style.modalBackgroundRounded}>
+						<div className={Style.modal}>
+							<LoadingDots />
+						</div>
+					</div>
+				) : (
+					''
+				)}
+				{dataLoaded && goalsDisplay.length === 0 ? (
 					<div className={Style.modalBackgroundRounded}>
 						<div className={Style.modal}>
 							<h2>Add new goals to get started!</h2>

@@ -2,24 +2,26 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Style from './homeWeekDisplay.module.scss';
-import { CircularProgressBar } from 'components';
+import { CircularProgressBar, LoadingDots } from 'components';
 
 import { Checkbox, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
+import * as backend from '../../../backendURL.js';
 
 export default function HomeWeekDisplay() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [resetConfirmation, setResetConfirmation] = useState(false);
 	const [unscheduledGoals, setUnscheduledGoals] = useState(false);
+	const [dataLoaded, setDataLoaded] = useState(false);
 
 	let currentCategories = [];
 
 	async function getGoals() {
 		try {
-			const categoryRequest = await axios.get('http://localhost:10000/category');
-			const goals = await axios.get('http://localhost:10000/goals');
+			const categoryRequest = await axios.get(`${backend.url}/category`);
+			const goals = await axios.get(`${backend.url}/goals`);
 			const goalsData = goals.data;
 			const categoriesData = categoryRequest.data;
 			console.log(goalsData);
@@ -55,6 +57,8 @@ export default function HomeWeekDisplay() {
 					return true;
 				}
 			});
+
+			setDataLoaded(true);
 		} catch (e) {
 			console.log(e);
 		}
@@ -77,7 +81,7 @@ export default function HomeWeekDisplay() {
 		const data = { completed: checked };
 		const response = await axios({
 			method: 'put',
-			url: `http://localhost:10000/goals/${id}`,
+			url: `${backend.url}/goals/${id}`,
 			data: data,
 		});
 		if (response.status === 200) {
@@ -100,7 +104,7 @@ export default function HomeWeekDisplay() {
 		goalsList.forEach((goal) => {
 			const request = axios({
 				method: 'put',
-				url: `http://localhost:10000/goals/${goal._id}`,
+				url: `${backend.url}/goals/${goal._id}`,
 				data: { completed: false },
 			});
 			requests.push(request);
@@ -113,7 +117,16 @@ export default function HomeWeekDisplay() {
 	return (
 		<div>
 			<ThemeProvider theme={theme}>
-				{goalsList.length === 0 ? (
+				{!dataLoaded ? (
+					<div className={Style.modalBackground}>
+						<div className={Style.modal}>
+							<LoadingDots />
+						</div>
+					</div>
+				) : (
+					''
+				)}
+				{dataLoaded && goalsList.length === 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>Add new goals to get started!</h2>
@@ -129,7 +142,7 @@ export default function HomeWeekDisplay() {
 				) : (
 					''
 				)}
-				{unscheduledGoals && goalsList.length > 0 ? (
+				{dataLoaded && unscheduledGoals && goalsList.length > 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>You have unscheduled goals</h2>

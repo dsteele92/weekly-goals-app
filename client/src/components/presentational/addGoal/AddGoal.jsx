@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './addGoal.module.scss';
+import * as backend from '../../../backendURL.js';
 
 import { FormValidationModal } from 'components';
 import { FormControl, TextField, Select, InputLabel, MenuItem, Button } from '@mui/material';
@@ -60,7 +61,7 @@ export default function AddGoal(props) {
 			for (let i = 0; i < timesPerWeek; i++) {
 				const request = await axios({
 					method: 'post',
-					url: 'http://localhost:10000/goals',
+					url: `${backend.url}/goals`,
 					data: data,
 				});
 				requests.push(request);
@@ -74,7 +75,7 @@ export default function AddGoal(props) {
 					console.log(props.allCategories);
 					const request = await axios({
 						method: 'post',
-						url: 'http://localhost:10000/category',
+						url: `${backend.url}/category`,
 						data: { name: `${customCategoryInput}`, color: 0 },
 					});
 					requests.push(request);

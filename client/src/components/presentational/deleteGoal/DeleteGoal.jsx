@@ -4,6 +4,7 @@ import Style from './deleteGoal.module.scss';
 import { Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
+import * as backend from '../../../backendURL.js';
 
 export default function DeleteGoal(props) {
 	console.log(props.goals);
@@ -17,7 +18,7 @@ export default function DeleteGoal(props) {
 			let requests = [];
 			for (let i in idsToDelete) {
 				const id = idsToDelete[i];
-				const request = axios.delete(`http://localhost:10000/goals/${id}`);
+				const request = axios.delete(`${backend.url}/goals/${id}`);
 				requests.push(request);
 			}
 			await Promise.all(requests);

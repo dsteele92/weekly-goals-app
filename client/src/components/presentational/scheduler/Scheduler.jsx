@@ -6,8 +6,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
+import * as backend from '../../../backendURL.js';
 
-import { SchedulerGoalBlock } from 'components';
+import { SchedulerGoalBlock, LoadingDots } from 'components';
 
 export default function Scheduler() {
 	// goalsList is the data set from database, with each goal only once
@@ -15,15 +16,17 @@ export default function Scheduler() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
 	const [updatedIds, setUpdatedIds] = useState([]);
+	const [dataLoaded, setDataLoaded] = useState(false);
 
 	async function getGoals() {
 		try {
-			const categories = await axios.get('http://localhost:10000/category');
-			const goals = await axios.get('http://localhost:10000/goals');
+			const categories = await axios.get(`${backend.url}/category`);
+			const goals = await axios.get(`${backend.url}/goals`);
 			console.log(goals.data);
 
 			setAllCategories(categories.data);
 			setGoalsList(goals.data);
+			setDataLoaded(true);
 		} catch (e) {
 			console.log(e);
 		}
@@ -121,7 +124,7 @@ export default function Scheduler() {
 			console.log(updateData);
 			const request = axios({
 				method: 'put',
-				url: `http://localhost:10000/goals/${id}`,
+				url: `${backend.url}/goals/${id}`,
 				data: updateData,
 			});
 			requests.push(request);
@@ -135,7 +138,16 @@ export default function Scheduler() {
 	return (
 		<div>
 			<ThemeProvider theme={theme}>
-				{goalsList.length === 0 ? (
+				{!dataLoaded ? (
+					<div className={Style.modalBackground}>
+						<div className={Style.modal}>
+							<LoadingDots />
+						</div>
+					</div>
+				) : (
+					''
+				)}
+				{dataLoaded && goalsList.length === 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>Add new goals to get started!</h2>

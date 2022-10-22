@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Style from './updateGoal.module.scss';
+import * as backend from '../../../backendURL.js';
 
 import { FormControl, TextField, Select, InputLabel, MenuItem, Button, Checkbox } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
@@ -36,7 +37,7 @@ export default function UpdateGoal(props) {
 				const id = idsToUpdate[i];
 				const request = axios({
 					method: 'put',
-					url: `http://localhost:10000/goals/${id}`,
+					url: `${backend.url}/goals/${id}`,
 					data: data,
 				});
 				requests.push(request);
@@ -45,7 +46,7 @@ export default function UpdateGoal(props) {
 				if (!props.allCategories.includes(customCategoryInput)) {
 					const categoryUpdate = axios({
 						method: 'post',
-						url: 'http://localhost:10000/category',
+						url: `${backend.url}/category`,
 						data: { name: `${customCategoryInput}`, color: 0 },
 					});
 					requests.push(categoryUpdate);
@@ -72,7 +73,7 @@ export default function UpdateGoal(props) {
 				for (let i = 0; i < difference; i++) {
 					const request = axios({
 						method: 'post',
-						url: 'http://localhost:10000/goals',
+						url: `${backend.url}/goals`,
 						data: data,
 					});
 					requests.push(request);
@@ -121,7 +122,7 @@ export default function UpdateGoal(props) {
 		console.log('Okay');
 		let requests = [];
 		idsToDelete.forEach((id) => {
-			const request = axios.delete(`http://localhost:10000/goals/${id}`);
+			const request = axios.delete(`${backend.url}/goals/${id}`);
 			requests.push(request);
 		});
 		await Promise.all(requests);
