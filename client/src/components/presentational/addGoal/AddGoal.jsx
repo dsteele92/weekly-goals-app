@@ -3,12 +3,13 @@ import axios from 'axios';
 import Style from './addGoal.module.scss';
 import * as backend from '../../../backendURL.js';
 
-import { FormValidationModal } from 'components';
+import { FormValidationModal, LoadingDots } from 'components';
 import { FormControl, TextField, Select, InputLabel, MenuItem, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
 
 export default function AddGoal(props) {
+	const [loading, setLoading] = useState(false);
 	const [nameInput, setNameInput] = useState('');
 	const [categoryInput, setCategoryInput] = useState('');
 	const [customCategory, setCustomCategory] = useState(false);
@@ -52,6 +53,8 @@ export default function AddGoal(props) {
 			return;
 		}
 
+		setLoading(true);
+
 		let data = {
 			name: nameInput,
 			category: customCategory ? customCategoryInput : categoryInput,
@@ -91,10 +94,18 @@ export default function AddGoal(props) {
 		} catch (e) {
 			console.log(e);
 		}
+		setLoading(false);
 	}
 
 	return (
 		<div className={Style.addGoal}>
+			{loading && (
+				<div className={Style.modalBackground}>
+					<div className={Style.modal}>
+						<LoadingDots />
+					</div>
+				</div>
+			)}
 			<h2 className={Style.header}>Add New Goal</h2>
 			<ThemeProvider theme={theme}>
 				<FormControl fullWidth margin='dense'>

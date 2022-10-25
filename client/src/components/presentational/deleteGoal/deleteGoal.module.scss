@@ -1,29 +1,36 @@
 @import 'sass';
 
-.infoDisplay {
-	margin: 5px;
-}
+.DeleteForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-.listCount {
-	color: rgb(0, 0, 0);
-	border: 1px solid black;
-	background-color: #ebebeb;
-	border-radius: 50%;
-	box-sizing: border-box;
-	padding: 4px;
-	font-size: 9px;
-	font-weight: 700;
-	vertical-align: middle;
-	margin-left: 5px;
-}
+	.infoDisplay {
+		margin: 5px;
+	}
 
-.buttons {
-	margin-top: 5px;
-	// width: 100%;
-	// display: flex;
-	// justify-content: center;
+	.listCount {
+		color: rgb(0, 0, 0);
+		border: 1px solid black;
+		background-color: #ebebeb;
+		border-radius: 50%;
+		box-sizing: border-box;
+		padding: 4px;
+		font-size: 9px;
+		font-weight: 700;
+		vertical-align: middle;
+		margin-left: 5px;
+	}
 
-	.buttonsMUI {
-		margin: 0 5px;
+	.buttons {
+		margin-top: 5px;
+		// width: 100%;
+		// display: flex;
+		// justify-content: center;
+
+		.buttonsMUI {
+			margin: 0 5px;
+		}
 	}
 }

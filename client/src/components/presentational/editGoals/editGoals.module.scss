@@ -1,125 +1,140 @@
 @import 'sass';
 
-.editGoals {
-	margin-top: 10px;
-	max-width: 1200px;
+.page {
 	position: relative;
-	left: 50%;
-	transform: translateX(-50%);
+	height: fit-content;
+	min-height: 100vh;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 
-	@media screen and (max-width: $breakpoint-tablet) {
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.leftColumn {
-		width: 360px;
-		// flex-shrink: 0;
+	.editGoals {
+		margin-top: 10px;
+		width: 100%;
+		height: 100%;
+		max-width: 1200px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 		display: flex;
-		flex-direction: column;
-		align-items: center;
+		justify-content: center;
 
 		@media screen and (max-width: $breakpoint-tablet) {
-			width: 100%;
-			flex-direction: row;
-			align-items: flex-start;
+			position: relative;
 		}
 
-		@media screen and (max-width: 600px) {
-			width: 100%;
+		@media screen and (max-width: $breakpoint-tablet) {
 			flex-direction: column;
-		}
-	}
-
-	.goalsDisplay {
-		position: relative;
-		flex-shrink: 2;
-		width: 70%;
-
-		@media screen and (max-width: $breakpoint-tablet) {
-			width: 90%;
+			align-items: center;
 		}
 
-		.roundedModal {
-			border-radius: 15px;
+		.leftColumn {
+			width: 360px;
+			// flex-shrink: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			@media screen and (max-width: $breakpoint-tablet) {
+				width: 100%;
+				flex-direction: row;
+				align-items: flex-start;
+			}
+
+			@media screen and (max-width: 600px) {
+				width: 100%;
+				flex-direction: column;
+			}
 		}
 
-		.header {
-			text-transform: capitalize;
-			align-self: flex-start;
-			margin-left: 10px;
-		}
-		// --> custom container colors:
-		.container {
-			@include container;
-			.icons {
-				display: flex;
-				justify-content: center;
-				align-items: center;
+		.goalsDisplay {
+			position: relative;
+			flex-shrink: 2;
+			width: 70%;
+
+			@media screen and (max-width: $breakpoint-tablet) {
+				width: 90%;
 			}
-			&0 {
-				@extend .container;
-				border-left: 2px solid $theme-color-default;
-				li {
-					border: 1.5px solid $theme-color-default;
+
+			.roundedModal {
+				border-radius: 15px;
+			}
+
+			.header {
+				text-transform: capitalize;
+				align-self: flex-start;
+				margin-left: 10px;
+			}
+			// --> custom container colors:
+			.container {
+				@include container;
+				.icons {
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
-			}
-			&1 {
-				@extend .container;
-				border-left: 2px solid $theme-color-one;
-				li {
-					border: 1.5px solid $theme-color-one;
+				&0 {
+					@extend .container;
+					border-left: 2px solid $theme-color-default;
+					li {
+						border: 1.5px solid $theme-color-default;
+					}
 				}
-			}
-			&2 {
-				@extend .container;
-				border-left: 2px solid $theme-color-two;
-				li {
-					border: 1.5px solid $theme-color-two;
+				&1 {
+					@extend .container;
+					border-left: 2px solid $theme-color-one;
+					li {
+						border: 1.5px solid $theme-color-one;
+					}
 				}
-			}
-			&3 {
-				@extend .container;
-				border-left: 2px solid $theme-color-three;
-				li {
-					border: 1.5px solid $theme-color-three;
+				&2 {
+					@extend .container;
+					border-left: 2px solid $theme-color-two;
+					li {
+						border: 1.5px solid $theme-color-two;
+					}
 				}
-			}
-			&4 {
-				@extend .container;
-				border-left: 2px solid $theme-color-four;
-				li {
-					border: 1.5px solid $theme-color-four;
+				&3 {
+					@extend .container;
+					border-left: 2px solid $theme-color-three;
+					li {
+						border: 1.5px solid $theme-color-three;
+					}
 				}
-			}
-			&5 {
-				@extend .container;
-				border-left: 2px solid $theme-color-five;
-				li {
-					border: 1.5px solid $theme-color-five;
+				&4 {
+					@extend .container;
+					border-left: 2px solid $theme-color-four;
+					li {
+						border: 1.5px solid $theme-color-four;
+					}
 				}
-			}
-			&6 {
-				@extend .container;
-				border-left: 2px solid $theme-color-six;
-				li {
-					border: 1.5px solid $theme-color-six;
+				&5 {
+					@extend .container;
+					border-left: 2px solid $theme-color-five;
+					li {
+						border: 1.5px solid $theme-color-five;
+					}
 				}
-			}
-			&7 {
-				@extend .container;
-				border-left: 2px solid $theme-color-seven;
-				li {
-					border: 1.5px solid $theme-color-seven;
+				&6 {
+					@extend .container;
+					border-left: 2px solid $theme-color-six;
+					li {
+						border: 1.5px solid $theme-color-six;
+					}
 				}
-			}
-			&8 {
-				@extend .container;
-				border-left: 2px solid $theme-color-eight;
-				li {
-					border: 1.5px solid $theme-color-eight;
+				&7 {
+					@extend .container;
+					border-left: 2px solid $theme-color-seven;
+					li {
+						border: 1.5px solid $theme-color-seven;
+					}
+				}
+				&8 {
+					@extend .container;
+					border-left: 2px solid $theme-color-eight;
+					li {
+						border: 1.5px solid $theme-color-eight;
+					}
 				}
 			}
 		}

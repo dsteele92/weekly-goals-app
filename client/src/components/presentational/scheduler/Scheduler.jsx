@@ -16,7 +16,7 @@ export default function Scheduler() {
 	const [goalsList, setGoalsList] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
 	const [updatedIds, setUpdatedIds] = useState([]);
-	const [dataLoaded, setDataLoaded] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	async function getGoals() {
 		try {
@@ -26,7 +26,7 @@ export default function Scheduler() {
 
 			setAllCategories(categories.data);
 			setGoalsList(goals.data);
-			setDataLoaded(true);
+			setLoading(false);
 		} catch (e) {
 			console.log(e);
 		}
@@ -113,6 +113,7 @@ export default function Scheduler() {
 	ON SAVE:
 	*/
 	const onSave = async function () {
+		setLoading(true);
 		let requests = [];
 		for (const updatedId in updatedIds) {
 			const id = updatedIds[updatedId];
@@ -132,22 +133,21 @@ export default function Scheduler() {
 		Promise.all(requests)
 			.then((values) => console.log(values))
 			.then(setUpdatedIds([]))
+			.then(setLoading(false))
 			.catch((err) => console.log(err));
 	};
 
 	return (
 		<div>
 			<ThemeProvider theme={theme}>
-				{!dataLoaded ? (
+				{loading && (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<LoadingDots />
 						</div>
 					</div>
-				) : (
-					''
 				)}
-				{dataLoaded && goalsList.length === 0 ? (
+				{!loading && goalsList.length === 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>Add new goals to get started!</h2>

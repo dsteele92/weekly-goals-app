@@ -12,7 +12,7 @@ export default function EditGoals() {
 	const [goalsDisplay, setGoalsDisplay] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [dataLoaded, setDataLoaded] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const [editGoal, setEditGoal] = useState(false);
 	const [deleteGoal, setDeleteGoal] = useState(false);
@@ -47,7 +47,7 @@ export default function EditGoals() {
 			}
 			setAllCategories(categoriesRequest.data);
 			setGoalsDisplay(consolidatedData);
-			setDataLoaded(true);
+			setLoading(false);
 		} catch (e) {
 			console.log(e);
 		}
@@ -92,64 +92,65 @@ export default function EditGoals() {
 	}
 
 	return (
-		<div className={Style.editGoals}>
-			<section className={Style.leftColumn}>
-				<AddGoal rerenderList={getGoals} categories={categories} allCategories={allCategories} />
-				<ColorSelect rerenderList={getGoals} categories={categories} />
-			</section>
-			<div className={Style.goalsDisplay}>
-				{!dataLoaded ? (
-					<div className={Style.modalBackgroundRounded}>
-						<div className={Style.modal}>
-							<LoadingDots />
+		<div className={Style.page}>
+			{loading && (
+				<div className={Style.modalBackground}>
+					<div className={Style.modal}>
+						<LoadingDots />
+					</div>
+				</div>
+			)}
+			<div className={Style.editGoals}>
+				<section className={Style.leftColumn}>
+					<AddGoal rerenderList={getGoals} categories={categories} allCategories={allCategories} />
+					<ColorSelect rerenderList={getGoals} categories={categories} />
+				</section>
+				<div className={Style.goalsDisplay}>
+					{!loading && goalsDisplay.length === 0 && (
+						<div className={Style.modalBackgroundRounded}>
+							<div className={Style.modal}>
+								<h2>Add new goals to get started!</h2>
+							</div>
 						</div>
-					</div>
-				) : (
-					''
-				)}
-				{dataLoaded && goalsDisplay.length === 0 ? (
-					<div className={Style.modalBackgroundRounded}>
-						<div className={Style.modal}>
-							<h2>Add new goals to get started!</h2>
+					)}
+					{categories.map((cat, index) => (
+						<div key={index} className={Style[`container${cat.color}`]}>
+							<h2 className={Style.header}>{cat.name}</h2>
+							<ul>
+								{goalsDisplay
+									.filter((goal) => goal.category.toLowerCase() === cat.name.toLowerCase())
+									.map((goal, index) => (
+										<li key={index}>
+											<div>
+												{goal.name}
+												{goal.count > 1 ? (
+													<span className={Style.listCount}>{`X${goal.count}`}</span>
+												) : (
+													''
+												)}
+											</div>
+											<span className={Style.icons}>
+												<div>
+													<EditOutlinedIcon
+														fontSize='small'
+														onClick={() => editClick(goal)}
+													/>
+												</div>
+												<div>
+													<DeleteOutlinedIcon
+														fontSize='small'
+														onClick={() => deleteClick(goal)}
+													/>
+												</div>
+											</span>
+										</li>
+									))}
+							</ul>
 						</div>
-					</div>
-				) : (
-					''
-				)}
-				{categories.map((cat, index) => (
-					<div key={index} className={Style[`container${cat.color}`]}>
-						<h2 className={Style.header}>{cat.name}</h2>
-						<ul>
-							{goalsDisplay
-								.filter((goal) => goal.category.toLowerCase() === cat.name.toLowerCase())
-								.map((goal, index) => (
-									<li key={index}>
-										<div>
-											{goal.name}
-											{goal.count > 1 ? (
-												<span className={Style.listCount}>{`X${goal.count}`}</span>
-											) : (
-												''
-											)}
-										</div>
-										<span className={Style.icons}>
-											<div>
-												<EditOutlinedIcon fontSize='small' onClick={() => editClick(goal)} />
-											</div>
-											<div>
-												<DeleteOutlinedIcon
-													fontSize='small'
-													onClick={() => deleteClick(goal)}
-												/>
-											</div>
-										</span>
-									</li>
-								))}
-						</ul>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
-			{editGoal ? (
+			{editGoal && (
 				<UpdateGoal
 					name={editGoal.name}
 					category={editGoal.category}
@@ -160,10 +161,8 @@ export default function EditGoals() {
 					categories={categories}
 					allCategories={allCategories}
 				/>
-			) : (
-				''
 			)}
-			{deleteGoal ? (
+			{deleteGoal && (
 				<DeleteGoal
 					name={deleteGoal.name}
 					category={deleteGoal.category}
@@ -173,8 +172,6 @@ export default function EditGoals() {
 					rerenderList={getGoals}
 					allCategories={allCategories}
 				/>
-			) : (
-				''
 			)}
 		</div>
 	);

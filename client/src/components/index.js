@@ -1,4 +1,7 @@
-export { default as Navbar } from './presentational/navbar/Navbar.jsx';
+export { default as Navbar } from './generic/navbar/Navbar.jsx';
+export { default as LoadingDots } from './generic/loadingDots/LoadingDots.jsx';
+export { default as Instructions } from './generic/instructions/Instructions.jsx';
+
 export { default as HomeWeekDisplay } from './presentational/homeWeekDisplay/HomeWeekDisplay.jsx';
 export { default as EditGoals } from './presentational/editGoals/EditGoals.jsx';
 export { default as Scheduler } from './presentational/scheduler/Scheduler.jsx';
@@ -10,4 +13,3 @@ export { default as SchedulerGoalBlock } from './presentational/schedulerGoalBlo
 export { default as FormValidationModal } from './presentational/formValidationModal/FormValidationModal.jsx';
 export { default as ColorSelect } from './presentational/colorSelect/ColorSelect.jsx';
 export { default as CircularProgressBar } from './presentational/circularProgressBar/CircularProgressBar.jsx';
-export { default as LoadingDots } from './generic/LoadingDots/LoadingDots.jsx';

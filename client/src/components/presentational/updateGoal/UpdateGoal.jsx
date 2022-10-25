@@ -3,6 +3,7 @@ import axios from 'axios';
 import Style from './updateGoal.module.scss';
 import * as backend from '../../../backendURL.js';
 
+import { LoadingDots } from 'components';
 import { FormControl, TextField, Select, InputLabel, MenuItem, Button, Checkbox } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../theme.js';
@@ -14,6 +15,7 @@ export default function UpdateGoal(props) {
 		props.category === 'Mindfulness'
 	);
 
+	const [loading, setLoading] = useState(false);
 	const [nameInput, setNameInput] = useState(props.name);
 	const [categoryInput, setCategoryInput] = useState(isCustom ? 'Custom' : props.category);
 	const [customCategoryInput, setCustomCategoryInput] = useState(isCustom ? props.category : '');
@@ -25,6 +27,7 @@ export default function UpdateGoal(props) {
 	const categories = [...props.categories.map((cat) => cat.name), 'Custom'];
 
 	async function updateGoal() {
+		setLoading(true);
 		const goalsToUpdate = props.goals.filter((goal) => goal.name === props.name);
 		let idsToUpdate = goalsToUpdate.map((goal) => goal._id);
 		let data = {
@@ -79,12 +82,11 @@ export default function UpdateGoal(props) {
 					requests.push(request);
 				}
 				await Promise.all(requests);
-				props.rerenderList();
-				props.unmount();
 			} catch (e) {
 				console.log(e);
 			}
-			console.log('greater than');
+			props.rerenderList();
+			props.unmount();
 		} else if (timesPerWeek < props.timesPerWeek) {
 			console.log(props.goals);
 			setDeletingGoals(true);
@@ -119,13 +121,17 @@ export default function UpdateGoal(props) {
 	}
 
 	async function removeSelected() {
-		console.log('Okay');
-		let requests = [];
-		idsToDelete.forEach((id) => {
-			const request = axios.delete(`${backend.url}/goals/${id}`);
-			requests.push(request);
-		});
-		await Promise.all(requests);
+		setLoading(true);
+		try {
+			let requests = [];
+			idsToDelete.forEach((id) => {
+				const request = axios.delete(`${backend.url}/goals/${id}`);
+				requests.push(request);
+			});
+			await Promise.all(requests);
+		} catch (e) {
+			console.log(e);
+		}
 		props.rerenderList();
 		props.unmount();
 	}
@@ -136,8 +142,9 @@ export default function UpdateGoal(props) {
 				<div className={Style.exitButton} onClick={props.unmount}>
 					X
 				</div>
+				{loading && <LoadingDots />}
 				<ThemeProvider theme={theme}>
-					{!deletingGoals ? (
+					{!deletingGoals && !loading ? (
 						<div className={Style.updateForms}>
 							<section>
 								<h2 className={Style.updateH2}>Update Goal</h2>
@@ -224,7 +231,7 @@ export default function UpdateGoal(props) {
 					) : (
 						''
 					)}
-					{deletingGoals ? (
+					{deletingGoals && !loading ? (
 						<div className={Style.deletingGoals}>
 							<h2>Which would you like to remove?</h2>
 							<div className={Style.deletingGoalsList}>

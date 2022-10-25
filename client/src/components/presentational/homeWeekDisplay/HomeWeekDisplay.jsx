@@ -14,7 +14,7 @@ export default function HomeWeekDisplay() {
 	const [categories, setCategories] = useState([]);
 	const [resetConfirmation, setResetConfirmation] = useState(false);
 	const [unscheduledGoals, setUnscheduledGoals] = useState(false);
-	const [dataLoaded, setDataLoaded] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	let currentCategories = [];
 
@@ -58,7 +58,7 @@ export default function HomeWeekDisplay() {
 				}
 			});
 
-			setDataLoaded(true);
+			setLoading(false);
 		} catch (e) {
 			console.log(e);
 		}
@@ -100,6 +100,8 @@ export default function HomeWeekDisplay() {
 	}
 
 	async function reset() {
+		setResetConfirmation(false);
+		setLoading(true);
 		let requests = [];
 		goalsList.forEach((goal) => {
 			const request = axios({
@@ -110,23 +112,21 @@ export default function HomeWeekDisplay() {
 			requests.push(request);
 		});
 		await Promise.all(requests);
-		setResetConfirmation(false);
 		getGoals();
+		setLoading(false);
 	}
 
 	return (
 		<div>
 			<ThemeProvider theme={theme}>
-				{!dataLoaded ? (
+				{loading && (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<LoadingDots />
 						</div>
 					</div>
-				) : (
-					''
 				)}
-				{dataLoaded && goalsList.length === 0 ? (
+				{!loading && goalsList.length === 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>Add new goals to get started!</h2>
@@ -142,7 +142,7 @@ export default function HomeWeekDisplay() {
 				) : (
 					''
 				)}
-				{dataLoaded && unscheduledGoals && goalsList.length > 0 ? (
+				{!loading && unscheduledGoals && goalsList.length > 0 ? (
 					<div className={Style.modalBackground}>
 						<div className={Style.modal}>
 							<h2>You have unscheduled goals</h2>
