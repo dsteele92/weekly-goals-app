@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.cab04cca.chunk.css",
-    "main.js": "/static/js/main.066f2fba.chunk.js",
-    "main.js.map": "/static/js/main.066f2fba.chunk.js.map",
+    "main.css": "/static/css/main.45eda136.chunk.css",
+    "main.js": "/static/js/main.1ce86fa4.chunk.js",
+    "main.js.map": "/static/js/main.1ce86fa4.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.5043f04b.js",
     "runtime-main.js.map": "/static/js/runtime-main.5043f04b.js.map",
     "static/js/2.1b767811.chunk.js": "/static/js/2.1b767811.chunk.js",
     "static/js/2.1b767811.chunk.js.map": "/static/js/2.1b767811.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.cab04cca.chunk.css.map": "/static/css/main.cab04cca.chunk.css.map",
+    "static/css/main.45eda136.chunk.css.map": "/static/css/main.45eda136.chunk.css.map",
     "static/js/2.1b767811.chunk.js.LICENSE.txt": "/static/js/2.1b767811.chunk.js.LICENSE.txt",
     "static/media/navbar.module.scss": "/static/media/skyvertical.7b15934c.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.5043f04b.js",
     "static/js/2.1b767811.chunk.js",
-    "static/css/main.cab04cca.chunk.css",
-    "static/js/main.066f2fba.chunk.js"
+    "static/css/main.45eda136.chunk.css",
+    "static/js/main.1ce86fa4.chunk.js"
   ]
 }

@@ -70,6 +70,7 @@ export default function UpdateGoal(props) {
 			category: customCategory ? customCategoryInput : categoryInput,
 		};
 		if (timesPerWeek > props.timesPerWeek) {
+			setLoading(true);
 			const difference = timesPerWeek - props.timesPerWeek;
 			try {
 				let requests = [];
@@ -149,7 +150,6 @@ export default function UpdateGoal(props) {
 							<section>
 								<h2 className={Style.updateH2}>Update Goal</h2>
 								<FormControl margin='dense'>
-									{/* <form className={Style.addForm}> */}
 									<TextField
 										margin='dense'
 										color='secondary'
@@ -181,7 +181,7 @@ export default function UpdateGoal(props) {
 											))}
 										</Select>
 									</FormControl>
-									{customCategory === true ? (
+									{customCategory === true && (
 										<TextField
 											margin='dense'
 											color='secondary'
@@ -196,8 +196,6 @@ export default function UpdateGoal(props) {
 												}
 											}}
 										/>
-									) : (
-										''
 									)}
 								</FormControl>
 								<Button className={Style.buttonsMUI} variant='outlined' onClick={updateGoal}>
