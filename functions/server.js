@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config({ path: './config.env' });
+require('dotenv').config({ path: './.env' });
 const port = process.env.PORT || 10000;
 const functions = require('firebase-functions');
 
@@ -13,11 +13,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const mongoose = require('mongoose');
 mongoose
-	.connect('mongodb+srv://dsteele92:ds9292@mongocluster.p2pj1nj.mongodb.net/?retryWrites=true&w=majority', {
-		dbName: 'weekly_goals_app',
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(
+		`mongodb+srv://dsteele92:${process.env.MONGO_PW}@mongocluster.p2pj1nj.mongodb.net/?retryWrites=true&w=majority`,
+		{
+			dbName: 'weekly_goals_app',
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
 	.then(() => {
 		console.log('MONGOOSE RUNNING');
 	})
